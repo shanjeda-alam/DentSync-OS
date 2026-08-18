@@ -1,0 +1,161 @@
+\begin{theindex}
+
+  \item {activeAppointments}
+    \subitem {dentist.c}, \hyperpage{29}
+  \item {appointment}
+    \subitem {patient}, \hyperpage{5}
+  \item {appointmentSlots}
+    \subitem {dentist.c}, \hyperpage{29}
+  \item {arrivalCounter}
+    \subitem {dentist.c}, \hyperpage{29}
+  \item {arrivalOrder}
+    \subitem {patient}, \hyperpage{5}
+
+  \indexspace
+
+  \item {clinicClosed}
+    \subitem {dentist.c}, \hyperpage{29}
+  \item {confirmedAppointments}
+    \subitem {dentist.c}, \hyperpage{29}
+
+  \indexspace
+
+  \item {dentist}
+    \subitem {dentist.c}, \hyperpage{12}
+  \item {dentist.c}, \hyperpage{9}
+    \subitem {activeAppointments}, \hyperpage{29}
+    \subitem {appointmentSlots}, \hyperpage{29}
+    \subitem {arrivalCounter}, \hyperpage{29}
+    \subitem {clinicClosed}, \hyperpage{29}
+    \subitem {confirmedAppointments}, \hyperpage{29}
+    \subitem {dentist}, \hyperpage{12}
+    \subitem {destroyPatient}, \hyperpage{14}
+    \subitem {doctorCapacity}, \hyperpage{30}
+    \subitem {findNextPatient}, \hyperpage{14}
+    \subitem {findNextRequest}, \hyperpage{15}
+    \subitem {initializePatient}, \hyperpage{16}
+    \subitem {main}, \hyperpage{17}
+    \subitem {mutex}, \hyperpage{30}
+    \subitem {patient}, \hyperpage{21}
+    \subitem {patientReady}, \hyperpage{30}
+    \subitem {patients}, \hyperpage{30}
+    \subitem {patientThreads}, \hyperpage{30}
+    \subitem {printPatientTable}, \hyperpage{24}
+    \subitem {printStatistics}, \hyperpage{25}
+    \subitem {receptionist}, \hyperpage{26}
+    \subitem {requestReady}, \hyperpage{30}
+    \subitem {showProjectInfo}, \hyperpage{28}
+    \subitem {totalPatients}, \hyperpage{31}
+    \subitem {treatedPatients}, \hyperpage{31}
+    \subitem {waitingPatients}, \hyperpage{31}
+    \subitem {waitingRoomChairs}, \hyperpage{31}
+  \item {dentistCallSem}
+    \subitem {patient}, \hyperpage{6}
+  \item {destroyPatient}
+    \subitem {dentist.c}, \hyperpage{14}
+  \item {doctorCapacity}
+    \subitem {dentist.c}, \hyperpage{30}
+
+  \indexspace
+
+  \item {findNextPatient}
+    \subitem {dentist.c}, \hyperpage{14}
+  \item {findNextRequest}
+    \subitem {dentist.c}, \hyperpage{15}
+
+  \indexspace
+
+  \item {id}
+    \subitem {patient}, \hyperpage{6}
+  \item {initializePatient}
+    \subitem {dentist.c}, \hyperpage{16}
+
+  \indexspace
+
+  \item {leftDoctorFull}
+    \subitem {patient}, \hyperpage{6}
+  \item {leftNoChair}
+    \subitem {patient}, \hyperpage{6}
+
+  \indexspace
+
+  \item {main}
+    \subitem {dentist.c}, \hyperpage{17}
+  \item {mutex}
+    \subitem {dentist.c}, \hyperpage{30}
+
+  \indexspace
+
+  \item {name}
+    \subitem {patient}, \hyperpage{6}
+  \item {noShow}
+    \subitem {patient}, \hyperpage{6}
+
+  \indexspace
+
+  \item {patient}, \hyperpage{5}
+    \subitem {appointment}, \hyperpage{5}
+    \subitem {arrivalOrder}, \hyperpage{5}
+    \subitem {dentist.c}, \hyperpage{21}
+    \subitem {dentistCallSem}, \hyperpage{6}
+    \subitem {id}, \hyperpage{6}
+    \subitem {leftDoctorFull}, \hyperpage{6}
+    \subitem {leftNoChair}, \hyperpage{6}
+    \subitem {name}, \hyperpage{6}
+    \subitem {noShow}, \hyperpage{6}
+    \subitem {replySem}, \hyperpage{7}
+    \subitem {requestPending}, \hyperpage{7}
+    \subitem {treated}, \hyperpage{7}
+    \subitem {treatmentDoneSem}, \hyperpage{7}
+    \subitem {waiting}, \hyperpage{7}
+    \subitem {willArrive}, \hyperpage{7}
+  \item {patientReady}
+    \subitem {dentist.c}, \hyperpage{30}
+  \item {patients}
+    \subitem {dentist.c}, \hyperpage{30}
+  \item {patientThreads}
+    \subitem {dentist.c}, \hyperpage{30}
+  \item {printPatientTable}
+    \subitem {dentist.c}, \hyperpage{24}
+  \item {printStatistics}
+    \subitem {dentist.c}, \hyperpage{25}
+
+  \indexspace
+
+  \item {receptionist}
+    \subitem {dentist.c}, \hyperpage{26}
+  \item {replySem}
+    \subitem {patient}, \hyperpage{7}
+  \item {requestPending}
+    \subitem {patient}, \hyperpage{7}
+  \item {requestReady}
+    \subitem {dentist.c}, \hyperpage{30}
+
+  \indexspace
+
+  \item {showProjectInfo}
+    \subitem {dentist.c}, \hyperpage{28}
+
+  \indexspace
+
+  \item {totalPatients}
+    \subitem {dentist.c}, \hyperpage{31}
+  \item {treated}
+    \subitem {patient}, \hyperpage{7}
+  \item {treatedPatients}
+    \subitem {dentist.c}, \hyperpage{31}
+  \item {treatmentDoneSem}
+    \subitem {patient}, \hyperpage{7}
+
+  \indexspace
+
+  \item {waiting}
+    \subitem {patient}, \hyperpage{7}
+  \item {waitingPatients}
+    \subitem {dentist.c}, \hyperpage{31}
+  \item {waitingRoomChairs}
+    \subitem {dentist.c}, \hyperpage{31}
+  \item {willArrive}
+    \subitem {patient}, \hyperpage{7}
+
+\end{theindex}

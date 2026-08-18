@@ -1,0 +1,1562 @@
+\doxysection{dentist.\+c File Reference}
+\hypertarget{dentist_8c}{}\label{dentist_8c}\index{dentist.c@{dentist.c}}
+
+
+Dentist Clinic Simulation -\/ Operating System Project.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$pthread.\+h$>$}\newline
+{\ttfamily \#include $<$semaphore.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+Include dependency graph for dentist.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dentist_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpatient}{patient}}
+\begin{DoxyCompactList}\small\item\em Stores all information about a patient. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{dentist_8c_a8055ad91129e9a86149941ee2edd6672}{initialize\+Patient}} (int i)
+\begin{DoxyCompactList}\small\item\em Initializes a patient structure. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{dentist_8c_ad3424ae12395de9db164ab12c1439f3d}{destroy\+Patient}} (int i)
+\begin{DoxyCompactList}\small\item\em Destroys all semaphores of a patient. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368}{find\+Next\+Patient}} ()
+\begin{DoxyCompactList}\small\item\em Finds the next patient using FIFO / FCFS. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0}{find\+Next\+Request}} ()
+\begin{DoxyCompactList}\small\item\em Finds the next appointment request. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1}{receptionist}} (void \texorpdfstring{$\ast$}{*}arg)
+\begin{DoxyCompactList}\small\item\em Receptionist thread function. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dentist_8c_ad760421f42ea6d16830513d6ba7a0440}{dentist}} (void \texorpdfstring{$\ast$}{*}arg)
+\begin{DoxyCompactList}\small\item\em Dentist thread function. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dentist_8c_a4452e89b8dc95607d60d69487673f2de}{patient}} (void \texorpdfstring{$\ast$}{*}arg)
+\begin{DoxyCompactList}\small\item\em Patient thread function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{dentist_8c_acb24d60c8c787057ced98f1e97eeddda}{print\+Patient\+Table}} ()
+\begin{DoxyCompactList}\small\item\em Displays the final patient table. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e}{print\+Statistics}} ()
+\begin{DoxyCompactList}\small\item\em Displays final clinic statistics. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f}{show\+Project\+Info}} ()
+\begin{DoxyCompactList}\small\item\em Displays the contents of project\+\_\+info.\+txt. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{dentist_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Main entry point of the program. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{total\+Patients}}
+\item 
+int \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waiting\+Room\+Chairs}}
+\item 
+int \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctor\+Capacity}}
+\item 
+int \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointment\+Slots}}
+\item 
+int \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waiting\+Patients}} = 0
+\item 
+int \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treated\+Patients}} = 0
+\item 
+int \mbox{\hyperlink{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58}{confirmed\+Appointments}} = 0
+\item 
+int \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{active\+Appointments}} = 0
+\item 
+int \mbox{\hyperlink{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07}{arrival\+Counter}} = 0
+\item 
+int \mbox{\hyperlink{dentist_8c_adf0438cfffc0798bbb393d7189808846}{clinic\+Closed}} = 0
+\item 
+struct \mbox{\hyperlink{structpatient}{patient}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}
+\begin{DoxyCompactList}\small\item\em Pointer to dynamically allocated patient array. \end{DoxyCompactList}\item 
+pthread\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patient\+Threads}}
+\begin{DoxyCompactList}\small\item\em Pointer to dynamically allocated patient thread array. \end{DoxyCompactList}\item 
+pthread\+\_\+mutex\+\_\+t \mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}}
+\begin{DoxyCompactList}\small\item\em Mutex used to protect shared data. \end{DoxyCompactList}\item 
+sem\+\_\+t \mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{request\+Ready}}
+\begin{DoxyCompactList}\small\item\em Semaphore used to notify the receptionist when a patient requests an appointment. \end{DoxyCompactList}\item 
+sem\+\_\+t \mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patient\+Ready}}
+\begin{DoxyCompactList}\small\item\em Semaphore used to notify the dentist when a patient enters the waiting room. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Dentist Clinic Simulation -\/ Operating System Project. 
+
+\begin{DoxyAuthor}{Author}
+shanjeda alam 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2026
+\end{DoxyDate}
+This program simulates a dentist clinic using different Operating System concepts.
+
+Main OS Concepts\+:
+\begin{DoxyEnumerate}
+\item POSIX Threads
+\item Mutex
+\item Semaphores
+\item FIFO / FCFS Scheduling
+\item Critical Section
+\item Synchronization
+\item Structure
+\item Pointer
+\item Dynamic Memory Allocation
+\end{DoxyEnumerate}
+
+Main Features\+:
+\begin{DoxyItemize}
+\item Patient management
+\item Appointment management
+\item Waiting room management
+\item Doctor treatment management
+\item No-\/show patient handling
+\item FIFO / FCFS scheduling
+\item Thread synchronization
+\item Mutex protected critical sections
+\item Semaphore based communication
+\end{DoxyItemize}
+
+User Input\+:
+\begin{DoxyItemize}
+\item Number of patients
+\item Number of waiting room chairs
+\item Doctor capacity
+\item Number of appointment slots
+\item Patient names
+\item Patient arrival / no-\/show status
+\end{DoxyItemize}
+
+Special Rule\+: If a confirmed appointment patient becomes a no-\/show, the appointment slot is released and another waiting patient can receive treatment. 
+
+Definition in file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{dentist_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{dentist_8c_ad760421f42ea6d16830513d6ba7a0440}\index{dentist.c@{dentist.c}!dentist@{dentist}}
+\index{dentist@{dentist}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{dentist()}{dentist()}}
+{\footnotesize\ttfamily \label{dentist_8c_ad760421f42ea6d16830513d6ba7a0440} 
+void \texorpdfstring{$\ast$}{*} dentist (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
+
+
+
+Dentist thread function. 
+
+Dentist thread.
+
+Selects patients using FIFO / FCFS and treats them.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Thread argument. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when the thread finishes.
+\end{DoxyReturn}
+The dentist selects waiting patients according to FIFO/\+FCFS. Each patient receives treatment for a simulated period.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Thread argument. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when dentist exits. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00488}{488}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00489\ \{}
+\DoxyCodeLine{00490\ \ \ \ \ (void)arg;}
+\DoxyCodeLine{00491\ }
+\DoxyCodeLine{00492\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Dr.\ Smith]\ Clinic\ is\ open.\(\backslash\)n"{}});}
+\DoxyCodeLine{00493\ }
+\DoxyCodeLine{00494\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{00495\ \ \ \ \ \{}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ patient\ */}}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ sem\_wait(\&\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}});}
+\DoxyCodeLine{00498\ }
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Close\ clinic\ when\ no\ patient\ remains\ */}}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_adf0438cfffc0798bbb393d7189808846}{clinicClosed}}\ ==\ 1\ \&\&}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}\ ==\ 0)}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00508\ }
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Doctor\ has\ treatment\ capacity\ */}}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}\ >\ 0\ \&\&}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}}\ <\ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}})}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id}\ =\ \mbox{\hyperlink{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368}{findNextPatient}}();}
+\DoxyCodeLine{00514\ }
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{id}\ !=\ -\/1)}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[id].waiting\ =\ 0;}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}-\/-\/;}
+\DoxyCodeLine{00519\ }
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Dr.\ Smith]\ Calling\ \%s\ (ID\ \%d)\(\backslash\)n"{}},}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].name,}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00523\ }
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ FCFS\ Order:\ \#\%d\(\backslash\)n"{}},}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].arrivalOrder);}
+\DoxyCodeLine{00526\ }
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ Waiting\ room:\ \%d/\%d\(\backslash\)n"{}},}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}},}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}});}
+\DoxyCodeLine{00530\ }
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00532\ }
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Call\ exact\ patient\ */}}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].dentistCallSem);}
+\DoxyCodeLine{00535\ }
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ Treating\ \%s...\(\backslash\)n"{}},}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].name);}
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Treatment\ simulation\ */}}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sleep(2);}
+\DoxyCodeLine{00541\ }
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ Treatment\ finished\ for\ \%s.\(\backslash\)n"{}},}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].name);}
+\DoxyCodeLine{00544\ }
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00546\ }
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}}++;}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[id].treated\ =\ 1;}
+\DoxyCodeLine{00549\ }
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Release\ appointment\ slot\ */}}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].appointment\ ==\ 1\ \&\&}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}\ >\ 0)}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}-\/-\/;}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00556\ }
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00558\ }
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Notify\ patient\ */}}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].treatmentDoneSem);}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00567\ }
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Doctor\ capacity\ reached\ */}}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}\ >\ 0\ \&\&}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}}\ >=\ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}})}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Dr.\ Smith]\ Daily\ treatment\ limit\ reached.\(\backslash\)n"{}});}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ Remaining\ patients\ must\ leave.\(\backslash\)n"{}});}
+\DoxyCodeLine{00574\ }
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].waiting\ ==\ 1)}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].waiting\ =\ 0;}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].leftDoctorFull\ =\ 1;}
+\DoxyCodeLine{00581\ }
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}-\/-\/;}
+\DoxyCodeLine{00583\ }
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ \%s\ (ID\ \%d)\ -\/\ "{}}}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Left\ because\ doctor\ is\ full.\(\backslash\)n"{}},}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].name,}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].dentistCallSem);}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00592\ }
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00599\ \ \ \ \ \}}
+\DoxyCodeLine{00600\ }
+\DoxyCodeLine{00601\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Dr.\ Smith]\ Closing.\(\backslash\)n"{}});}
+\DoxyCodeLine{00602\ }
+\DoxyCodeLine{00603\ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00604\ \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=257pt]{dentist_8c_ad760421f42ea6d16830513d6ba7a0440_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=207pt]{dentist_8c_ad760421f42ea6d16830513d6ba7a0440_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dentist_8c_ad3424ae12395de9db164ab12c1439f3d}\index{dentist.c@{dentist.c}!destroyPatient@{destroyPatient}}
+\index{destroyPatient@{destroyPatient}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{destroyPatient()}{destroyPatient()}}
+{\footnotesize\ttfamily \label{dentist_8c_ad3424ae12395de9db164ab12c1439f3d} 
+void destroy\+Patient (\begin{DoxyParamCaption}\item[{int}]{i}{}\end{DoxyParamCaption})}
+
+
+
+Destroys all semaphores of a patient. 
+
+Destroys patient semaphores.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index of the patient. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00294}{294}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00295\ \{}
+\DoxyCodeLine{00296\ \ \ \ \ sem\_destroy(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].replySem);}
+\DoxyCodeLine{00297\ \ \ \ \ sem\_destroy(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].dentistCallSem);}
+\DoxyCodeLine{00298\ \ \ \ \ sem\_destroy(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].treatmentDoneSem);}
+\DoxyCodeLine{00299\ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=243pt]{dentist_8c_ad3424ae12395de9db164ab12c1439f3d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368}\index{dentist.c@{dentist.c}!findNextPatient@{findNextPatient}}
+\index{findNextPatient@{findNextPatient}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{findNextPatient()}{findNextPatient()}}
+{\footnotesize\ttfamily \label{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368} 
+int find\+Next\+Patient (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Finds the next patient using FIFO / FCFS. 
+
+Finds the next waiting patient using FIFO / FCFS.
+
+\begin{DoxyReturn}{Returns}
+Patient index if available, otherwise -\/1.
+\end{DoxyReturn}
+The patient with the smallest arrival order is selected.
+
+\begin{DoxyReturn}{Returns}
+Patient index or -\/1 if no patient is waiting. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00313}{313}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00314\ \{}
+\DoxyCodeLine{00315\ \ \ \ \ \textcolor{keywordtype}{int}\ selected\ =\ -\/1;}
+\DoxyCodeLine{00316\ \ \ \ \ \textcolor{keywordtype}{int}\ smallestOrder\ =\ 999999;}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{00319\ \ \ \ \ \{}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].waiting\ ==\ 1\ \&\&}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].arrivalOrder\ <\ smallestOrder)}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ smallestOrder\ =\ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].arrivalOrder;}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ selected\ =\ i;}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00326\ \ \ \ \ \}}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordflow}{return}\ selected;}
+\DoxyCodeLine{00329\ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0}\index{dentist.c@{dentist.c}!findNextRequest@{findNextRequest}}
+\index{findNextRequest@{findNextRequest}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{findNextRequest()}{findNextRequest()}}
+{\footnotesize\ttfamily \label{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0} 
+int find\+Next\+Request (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Finds the next appointment request. 
+
+Finds the next patient requesting an appointment.
+
+\begin{DoxyReturn}{Returns}
+Patient index if request exists, otherwise -\/1.
+
+Patient index or -\/1 if no request exists. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00341}{341}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00342\ \{}
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{00344\ \ \ \ \ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].requestPending\ ==\ 1)}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ i;}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00349\ \ \ \ \ \}}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00352\ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dentist_8c_a8055ad91129e9a86149941ee2edd6672}\index{dentist.c@{dentist.c}!initializePatient@{initializePatient}}
+\index{initializePatient@{initializePatient}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{initializePatient()}{initializePatient()}}
+{\footnotesize\ttfamily \label{dentist_8c_a8055ad91129e9a86149941ee2edd6672} 
+void initialize\+Patient (\begin{DoxyParamCaption}\item[{int}]{i}{}\end{DoxyParamCaption})}
+
+
+
+Initializes a patient structure. 
+
+Initializes one patient.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index of the patient.\\
+\hline
+\end{DoxyParams}
+All patient status values are set to their default values. Private semaphores are also initialized here.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index of the patient in the patient array. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00262}{262}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00263\ \{}
+\DoxyCodeLine{00264\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].id\ =\ i\ +\ 1;}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].appointment\ =\ 0;}
+\DoxyCodeLine{00267\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].willArrive\ =\ 1;}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].arrivalOrder\ =\ 0;}
+\DoxyCodeLine{00270\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].waiting\ =\ 0;}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].treated\ =\ 0;}
+\DoxyCodeLine{00273\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].noShow\ =\ 0;}
+\DoxyCodeLine{00274\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].leftNoChair\ =\ 0;}
+\DoxyCodeLine{00275\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].leftDoctorFull\ =\ 0;}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].requestPending\ =\ 0;}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ sem\_init(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].replySem,\ 0,\ 0);}
+\DoxyCodeLine{00280\ \ \ \ \ sem\_init(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].dentistCallSem,\ 0,\ 0);}
+\DoxyCodeLine{00281\ \ \ \ \ sem\_init(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].treatmentDoneSem,\ 0,\ 0);}
+\DoxyCodeLine{00282\ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{dentist_8c_a8055ad91129e9a86149941ee2edd6672_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dentist_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{dentist.c@{dentist.c}!main@{main}}
+\index{main@{main}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{dentist_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Main entry point of the program. 
+
+Takes clinic settings and patient information from the user, initializes threads, mutexes and semaphores, starts the simulation and finally cleans up all resources.
+
+\begin{DoxyReturn}{Returns}
+0 if the program finishes successfully. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00965}{965}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00966\ \{}
+\DoxyCodeLine{00967\ \ \ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{00968\ }
+\DoxyCodeLine{00969\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{00970\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{00971\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ DENTIST\ CLINIC\ SIMULATION\(\backslash\)n"{}});}
+\DoxyCodeLine{00972\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OS\ PROJECT\(\backslash\)n"{}});}
+\DoxyCodeLine{00973\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{00974\ }
+\DoxyCodeLine{00975\ }
+\DoxyCodeLine{00976\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00977\ \textcolor{comment}{\ \ \ \ \ \ \ SHOW\ PROJECT\ INFORMATION}}
+\DoxyCodeLine{00978\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00979\ }
+\DoxyCodeLine{00980\ \ \ \ \ \mbox{\hyperlink{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f}{showProjectInfo}}();}
+\DoxyCodeLine{00981\ }
+\DoxyCodeLine{00982\ }
+\DoxyCodeLine{00983\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00984\ \textcolor{comment}{\ \ \ \ \ \ \ USER\ INPUT}}
+\DoxyCodeLine{00985\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00986\ }
+\DoxyCodeLine{00987\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)nEnter\ number\ of\ patients:\ "{}});}
+\DoxyCodeLine{00988\ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%d"{}},\ \&\mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}});}
+\DoxyCodeLine{00989\ }
+\DoxyCodeLine{00990\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}}\ <=\ 0)}
+\DoxyCodeLine{00991\ \ \ \ \ \{}
+\DoxyCodeLine{00992\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Invalid\ number\ of\ patients.\(\backslash\)n"{}});}
+\DoxyCodeLine{00993\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00994\ \ \ \ \ \}}
+\DoxyCodeLine{00995\ }
+\DoxyCodeLine{00996\ }
+\DoxyCodeLine{00997\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Enter\ number\ of\ waiting\ room\ chairs:\ "{}});}
+\DoxyCodeLine{00998\ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%d"{}},\ \&\mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}});}
+\DoxyCodeLine{00999\ }
+\DoxyCodeLine{01000\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}}\ <=\ 0)}
+\DoxyCodeLine{01001\ \ \ \ \ \{}
+\DoxyCodeLine{01002\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Invalid\ number\ of\ chairs.\(\backslash\)n"{}});}
+\DoxyCodeLine{01003\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{01004\ \ \ \ \ \}}
+\DoxyCodeLine{01005\ }
+\DoxyCodeLine{01006\ }
+\DoxyCodeLine{01007\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Enter\ doctor's\ maximum\ capacity:\ "{}});}
+\DoxyCodeLine{01008\ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%d"{}},\ \&\mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}});}
+\DoxyCodeLine{01009\ }
+\DoxyCodeLine{01010\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}}\ <=\ 0)}
+\DoxyCodeLine{01011\ \ \ \ \ \{}
+\DoxyCodeLine{01012\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Invalid\ doctor\ capacity.\(\backslash\)n"{}});}
+\DoxyCodeLine{01013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{01014\ \ \ \ \ \}}
+\DoxyCodeLine{01015\ }
+\DoxyCodeLine{01016\ }
+\DoxyCodeLine{01017\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Enter\ number\ of\ appointment\ slots:\ "{}});}
+\DoxyCodeLine{01018\ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%d"{}},\ \&\mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}});}
+\DoxyCodeLine{01019\ }
+\DoxyCodeLine{01020\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}}\ <=\ 0\ ||}
+\DoxyCodeLine{01021\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}}\ >\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}})}
+\DoxyCodeLine{01022\ \ \ \ \ \{}
+\DoxyCodeLine{01023\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Invalid\ appointment\ slot\ number.\(\backslash\)n"{}});}
+\DoxyCodeLine{01024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{01025\ \ \ \ \ \}}
+\DoxyCodeLine{01026\ }
+\DoxyCodeLine{01027\ }
+\DoxyCodeLine{01028\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01029\ \textcolor{comment}{\ \ \ \ \ \ \ MEMORY\ ALLOCATION}}
+\DoxyCodeLine{01030\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01031\ }
+\DoxyCodeLine{01032\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}\ =}
+\DoxyCodeLine{01033\ \ \ \ \ \ \ \ \ malloc(\mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}}\ *\ \textcolor{keyword}{sizeof}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structpatient}{patient}}));}
+\DoxyCodeLine{01034\ }
+\DoxyCodeLine{01035\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}}\ =}
+\DoxyCodeLine{01036\ \ \ \ \ \ \ \ \ malloc(\mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}}\ *\ \textcolor{keyword}{sizeof}(pthread\_t));}
+\DoxyCodeLine{01037\ }
+\DoxyCodeLine{01038\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}\ ==\ NULL\ ||}
+\DoxyCodeLine{01039\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}}\ ==\ NULL)}
+\DoxyCodeLine{01040\ \ \ \ \ \{}
+\DoxyCodeLine{01041\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Memory\ allocation\ failed.\(\backslash\)n"{}});}
+\DoxyCodeLine{01042\ }
+\DoxyCodeLine{01043\ \ \ \ \ \ \ \ \ free(\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}});}
+\DoxyCodeLine{01044\ \ \ \ \ \ \ \ \ free(\mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}});}
+\DoxyCodeLine{01045\ }
+\DoxyCodeLine{01046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{01047\ \ \ \ \ \}}
+\DoxyCodeLine{01048\ }
+\DoxyCodeLine{01049\ }
+\DoxyCodeLine{01050\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01051\ \textcolor{comment}{\ \ \ \ \ \ \ PATIENT\ INPUT}}
+\DoxyCodeLine{01052\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01053\ }
+\DoxyCodeLine{01054\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n"{}});}
+\DoxyCodeLine{01055\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Enter\ patient\ information\(\backslash\)n"{}});}
+\DoxyCodeLine{01056\ \ \ \ \ printf(\textcolor{stringliteral}{"{}1\ =\ Patient\ will\ come\(\backslash\)n"{}});}
+\DoxyCodeLine{01057\ \ \ \ \ printf(\textcolor{stringliteral}{"{}0\ =\ Patient\ will\ not\ come\ (No-\/show)\(\backslash\)n"{}});}
+\DoxyCodeLine{01058\ \ \ \ \ printf(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n"{}});}
+\DoxyCodeLine{01059\ }
+\DoxyCodeLine{01060\ \ \ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{01061\ \ \ \ \ \{}
+\DoxyCodeLine{01062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a8055ad91129e9a86149941ee2edd6672}{initializePatient}}(i);}
+\DoxyCodeLine{01063\ }
+\DoxyCodeLine{01064\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)nPatient\ \%d\ name:\ "{}},}
+\DoxyCodeLine{01065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ +\ 1);}
+\DoxyCodeLine{01066\ }
+\DoxyCodeLine{01067\ \ \ \ \ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%63s"{}},}
+\DoxyCodeLine{01068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].name);}
+\DoxyCodeLine{01069\ }
+\DoxyCodeLine{01070\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Will\ \%s\ come?\ (1=Yes,\ 0=No):\ "{}},}
+\DoxyCodeLine{01071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].name);}
+\DoxyCodeLine{01072\ }
+\DoxyCodeLine{01073\ \ \ \ \ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%d"{}},}
+\DoxyCodeLine{01074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].willArrive);}
+\DoxyCodeLine{01075\ \ \ \ \ \}}
+\DoxyCodeLine{01076\ }
+\DoxyCodeLine{01077\ }
+\DoxyCodeLine{01078\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01079\ \textcolor{comment}{\ \ \ \ \ \ \ CLINIC\ SETTINGS}}
+\DoxyCodeLine{01080\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01081\ }
+\DoxyCodeLine{01082\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{01083\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CLINIC\ SETTINGS\(\backslash\)n"{}});}
+\DoxyCodeLine{01084\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{01085\ }
+\DoxyCodeLine{01086\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Total\ patients\ \ \ \ \ \ :\ \%d\(\backslash\)n"{}},}
+\DoxyCodeLine{01087\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}});}
+\DoxyCodeLine{01088\ }
+\DoxyCodeLine{01089\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Waiting\ room\ chairs\ :\ \%d\(\backslash\)n"{}},}
+\DoxyCodeLine{01090\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}});}
+\DoxyCodeLine{01091\ }
+\DoxyCodeLine{01092\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Doctor\ capacity\ \ \ \ \ :\ \%d\(\backslash\)n"{}},}
+\DoxyCodeLine{01093\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}});}
+\DoxyCodeLine{01094\ }
+\DoxyCodeLine{01095\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Appointment\ slots\ \ \ :\ \%d\(\backslash\)n"{}},}
+\DoxyCodeLine{01096\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}});}
+\DoxyCodeLine{01097\ }
+\DoxyCodeLine{01098\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Scheduling\ \ \ \ \ \ \ \ \ \ :\ FIFO\ /\ FCFS\(\backslash\)n"{}});}
+\DoxyCodeLine{01099\ }
+\DoxyCodeLine{01100\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{01101\ }
+\DoxyCodeLine{01102\ }
+\DoxyCodeLine{01103\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01104\ \textcolor{comment}{\ \ \ \ \ \ \ INITIALIZE\ SYNCHRONIZATION}}
+\DoxyCodeLine{01105\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01106\ }
+\DoxyCodeLine{01107\ \ \ \ \ pthread\_mutex\_init(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}},\ NULL);}
+\DoxyCodeLine{01108\ }
+\DoxyCodeLine{01109\ \ \ \ \ sem\_init(\&\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}},\ 0,\ 0);}
+\DoxyCodeLine{01110\ \ \ \ \ sem\_init(\&\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}},\ 0,\ 0);}
+\DoxyCodeLine{01111\ }
+\DoxyCodeLine{01112\ }
+\DoxyCodeLine{01113\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01114\ \textcolor{comment}{\ \ \ \ \ \ \ CREATE\ DENTIST\ THREAD}}
+\DoxyCodeLine{01115\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01116\ }
+\DoxyCodeLine{01117\ \ \ \ \ pthread\_t\ dentistThread;}
+\DoxyCodeLine{01118\ }
+\DoxyCodeLine{01119\ \ \ \ \ pthread\_create(\&dentistThread,}
+\DoxyCodeLine{01120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL,}
+\DoxyCodeLine{01121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_ad760421f42ea6d16830513d6ba7a0440}{dentist}},}
+\DoxyCodeLine{01122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL);}
+\DoxyCodeLine{01123\ }
+\DoxyCodeLine{01124\ }
+\DoxyCodeLine{01125\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01126\ \textcolor{comment}{\ \ \ \ \ \ \ CREATE\ RECEPTIONIST\ THREAD}}
+\DoxyCodeLine{01127\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01128\ }
+\DoxyCodeLine{01129\ \ \ \ \ pthread\_t\ receptionistThread;}
+\DoxyCodeLine{01130\ }
+\DoxyCodeLine{01131\ \ \ \ \ pthread\_create(\&receptionistThread,}
+\DoxyCodeLine{01132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL,}
+\DoxyCodeLine{01133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1}{receptionist}},}
+\DoxyCodeLine{01134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL);}
+\DoxyCodeLine{01135\ }
+\DoxyCodeLine{01136\ }
+\DoxyCodeLine{01137\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{01138\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SIMULATION\ STARTED\(\backslash\)n"{}});}
+\DoxyCodeLine{01139\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{01140\ }
+\DoxyCodeLine{01141\ }
+\DoxyCodeLine{01142\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01143\ \textcolor{comment}{\ \ \ \ \ \ \ CREATE\ PATIENT\ THREADS}}
+\DoxyCodeLine{01144\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01145\ }
+\DoxyCodeLine{01146\ \ \ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{01147\ \ \ \ \ \{}
+\DoxyCodeLine{01148\ \ \ \ \ \ \ \ \ pthread\_create(\&\mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}}[i],}
+\DoxyCodeLine{01149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL,}
+\DoxyCodeLine{01150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpatient}{patient}},}
+\DoxyCodeLine{01151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i]);}
+\DoxyCodeLine{01152\ }
+\DoxyCodeLine{01153\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{01154\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ *\ Small\ delay\ between\ patient\ arrivals.}}
+\DoxyCodeLine{01155\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{01156\ \ \ \ \ \ \ \ \ usleep(300000);}
+\DoxyCodeLine{01157\ \ \ \ \ \}}
+\DoxyCodeLine{01158\ }
+\DoxyCodeLine{01159\ }
+\DoxyCodeLine{01160\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01161\ \textcolor{comment}{\ \ \ \ \ \ \ WAIT\ FOR\ PATIENT\ THREADS}}
+\DoxyCodeLine{01162\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01163\ }
+\DoxyCodeLine{01164\ \ \ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{01165\ \ \ \ \ \{}
+\DoxyCodeLine{01166\ \ \ \ \ \ \ \ \ pthread\_join(\mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}}[i],}
+\DoxyCodeLine{01167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL);}
+\DoxyCodeLine{01168\ \ \ \ \ \}}
+\DoxyCodeLine{01169\ }
+\DoxyCodeLine{01170\ }
+\DoxyCodeLine{01171\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01172\ \textcolor{comment}{\ \ \ \ \ \ \ CLOSE\ CLINIC}}
+\DoxyCodeLine{01173\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01174\ }
+\DoxyCodeLine{01175\ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{01176\ }
+\DoxyCodeLine{01177\ \ \ \ \ \mbox{\hyperlink{dentist_8c_adf0438cfffc0798bbb393d7189808846}{clinicClosed}}\ =\ 1;}
+\DoxyCodeLine{01178\ }
+\DoxyCodeLine{01179\ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{01180\ }
+\DoxyCodeLine{01181\ }
+\DoxyCodeLine{01182\ \ \ \ \ \textcolor{comment}{/*\ Wake\ dentist\ and\ receptionist\ */}}
+\DoxyCodeLine{01183\ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}});}
+\DoxyCodeLine{01184\ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}});}
+\DoxyCodeLine{01185\ }
+\DoxyCodeLine{01186\ }
+\DoxyCodeLine{01187\ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ dentist\ */}}
+\DoxyCodeLine{01188\ \ \ \ \ pthread\_join(dentistThread,}
+\DoxyCodeLine{01189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL);}
+\DoxyCodeLine{01190\ }
+\DoxyCodeLine{01191\ }
+\DoxyCodeLine{01192\ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ receptionist\ */}}
+\DoxyCodeLine{01193\ \ \ \ \ pthread\_join(receptionistThread,}
+\DoxyCodeLine{01194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL);}
+\DoxyCodeLine{01195\ }
+\DoxyCodeLine{01196\ }
+\DoxyCodeLine{01197\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01198\ \textcolor{comment}{\ \ \ \ \ \ \ FINAL\ RESULT}}
+\DoxyCodeLine{01199\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01200\ }
+\DoxyCodeLine{01201\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{01202\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CLINIC\ CLOSED\(\backslash\)n"{}});}
+\DoxyCodeLine{01203\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{01204\ }
+\DoxyCodeLine{01205\ \ \ \ \ \mbox{\hyperlink{dentist_8c_acb24d60c8c787057ced98f1e97eeddda}{printPatientTable}}();}
+\DoxyCodeLine{01206\ }
+\DoxyCodeLine{01207\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e}{printStatistics}}();}
+\DoxyCodeLine{01208\ }
+\DoxyCodeLine{01209\ }
+\DoxyCodeLine{01210\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{01211\ \textcolor{comment}{\ \ \ \ \ \ \ CLEANUP}}
+\DoxyCodeLine{01212\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{01213\ }
+\DoxyCodeLine{01214\ \ \ \ \ pthread\_mutex\_destroy(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{01215\ }
+\DoxyCodeLine{01216\ \ \ \ \ sem\_destroy(\&\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}});}
+\DoxyCodeLine{01217\ \ \ \ \ sem\_destroy(\&\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}});}
+\DoxyCodeLine{01218\ }
+\DoxyCodeLine{01219\ \ \ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{01220\ \ \ \ \ \{}
+\DoxyCodeLine{01221\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_ad3424ae12395de9db164ab12c1439f3d}{destroyPatient}}(i);}
+\DoxyCodeLine{01222\ \ \ \ \ \}}
+\DoxyCodeLine{01223\ }
+\DoxyCodeLine{01224\ \ \ \ \ free(\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}});}
+\DoxyCodeLine{01225\ \ \ \ \ free(\mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}});}
+\DoxyCodeLine{01226\ }
+\DoxyCodeLine{01227\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)nAll\ threads\ terminated\ successfully.\(\backslash\)n"{}});}
+\DoxyCodeLine{01228\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Program\ finished.\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{01229\ }
+\DoxyCodeLine{01230\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{01231\ \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dentist_8c_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dentist_8c_a4452e89b8dc95607d60d69487673f2de}\index{dentist.c@{dentist.c}!patient@{patient}}
+\index{patient@{patient}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{patient()}{patient()}}
+{\footnotesize\ttfamily \label{dentist_8c_a4452e89b8dc95607d60d69487673f2de} 
+void \texorpdfstring{$\ast$}{*} patient (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
+
+
+
+Patient thread function. 
+
+Patient thread.
+
+Handles appointment request, arrival, waiting room, no-\/show and treatment.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Pointer to a patient structure. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when the thread finishes.
+\end{DoxyReturn}
+Handles\+:
+\begin{DoxyItemize}
+\item Appointment request
+\item Appointment confirmation
+\item No-\/show
+\item Waiting room entry
+\item FIFO order
+\item Treatment
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Pointer to struct patient. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when patient thread finishes. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00625}{625}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00626\ \{}
+\DoxyCodeLine{00627\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00628\ \textcolor{comment}{\ \ \ \ \ *\ Pointer\ to\ patient\ structure.}}
+\DoxyCodeLine{00629\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00630\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpatient}{patient}}\ *p\ =\ (\textcolor{keyword}{struct\ }\mbox{\hyperlink{structpatient}{patient}}\ *)arg;}
+\DoxyCodeLine{00631\ }
+\DoxyCodeLine{00632\ }
+\DoxyCodeLine{00633\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00634\ \textcolor{comment}{\ \ \ \ \ \ \ REQUEST\ APPOINTMENT}}
+\DoxyCodeLine{00635\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00636\ }
+\DoxyCodeLine{00637\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Patient\ \%d\ |\ \%s]\ Requesting\ appointment.\(\backslash\)n"{}},}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{00640\ }
+\DoxyCodeLine{00641\ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00642\ }
+\DoxyCodeLine{00643\ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_af39e6f8fef51843e6166eb1c4fe01f3f}{requestPending}}\ =\ 1;}
+\DoxyCodeLine{00644\ }
+\DoxyCodeLine{00645\ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00646\ }
+\DoxyCodeLine{00647\ \ \ \ \ \textcolor{comment}{/*\ Notify\ receptionist\ */}}
+\DoxyCodeLine{00648\ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}});}
+\DoxyCodeLine{00649\ }
+\DoxyCodeLine{00650\ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ receptionist\ */}}
+\DoxyCodeLine{00651\ \ \ \ \ sem\_wait(\&p-\/>\mbox{\hyperlink{structpatient_adc081f0db61cb5eecb92d05be47ecd43}{replySem}});}
+\DoxyCodeLine{00652\ }
+\DoxyCodeLine{00653\ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Appointment:\ "{}},}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{00656\ }
+\DoxyCodeLine{00657\ \ \ \ \ \textcolor{keywordflow}{if}\ (p-\/>\mbox{\hyperlink{structpatient_a5e70ddea830bbd84227ff7007bced89d}{appointment}}\ ==\ 1)}
+\DoxyCodeLine{00658\ \ \ \ \ \{}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}CONFIRMED\(\backslash\)n"{}});}
+\DoxyCodeLine{00660\ \ \ \ \ \}}
+\DoxyCodeLine{00661\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00662\ \ \ \ \ \{}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}NOT\ CONFIRMED\ /\ WALK-\/IN\(\backslash\)n"{}});}
+\DoxyCodeLine{00664\ \ \ \ \ \}}
+\DoxyCodeLine{00665\ }
+\DoxyCodeLine{00666\ }
+\DoxyCodeLine{00667\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00668\ \textcolor{comment}{\ \ \ \ \ \ \ NO-\/SHOW}}
+\DoxyCodeLine{00669\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00670\ }
+\DoxyCodeLine{00671\ \ \ \ \ \textcolor{keywordflow}{if}\ (p-\/>\mbox{\hyperlink{structpatient_ad18cb6117b28280239c45d80384da07f}{willArrive}}\ ==\ 0)}
+\DoxyCodeLine{00672\ \ \ \ \ \{}
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00674\ }
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a4664ba0fd23fd269d1c1d99728d41de3}{noShow}}\ =\ 1;}
+\DoxyCodeLine{00676\ }
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Patient\ \%d\ |\ \%s]\ NO-\/SHOW.\(\backslash\)n"{}},}
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{00680\ }
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00682\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ *\ Release\ confirmed\ appointment\ slot.}}
+\DoxyCodeLine{00683\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p-\/>\mbox{\hyperlink{structpatient_a5e70ddea830bbd84227ff7007bced89d}{appointment}}\ ==\ 1)}
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}\ >\ 0)}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}-\/-\/;}
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00690\ }
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Receptionist]\ \%s's\ appointment\ slot\ "{}}}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}has\ been\ released.\(\backslash\)n"{}},}
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{00694\ }
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Receptionist]\ Active\ appointments:\ "{}}}
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\%d/\%d\(\backslash\)n"{}},}
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}},}
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}});}
+\DoxyCodeLine{00699\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00700\ }
+\DoxyCodeLine{00701\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00702\ }
+\DoxyCodeLine{00703\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00704\ \ \ \ \ \}}
+\DoxyCodeLine{00705\ }
+\DoxyCodeLine{00706\ }
+\DoxyCodeLine{00707\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00708\ \textcolor{comment}{\ \ \ \ \ \ \ ARRIVE\ AT\ CLINIC}}
+\DoxyCodeLine{00709\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00710\ }
+\DoxyCodeLine{00711\ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Arrived\ at\ the\ clinic.\(\backslash\)n"{}},}
+\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{00714\ }
+\DoxyCodeLine{00715\ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00716\ }
+\DoxyCodeLine{00717\ }
+\DoxyCodeLine{00718\ \ \ \ \ \textcolor{comment}{/*\ Check\ doctor\ capacity\ */}}
+\DoxyCodeLine{00719\ }
+\DoxyCodeLine{00720\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}}\ >=\ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}})}
+\DoxyCodeLine{00721\ \ \ \ \ \{}
+\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a01cd7312bceb127e900dcfc6d9207b48}{leftDoctorFull}}\ =\ 1;}
+\DoxyCodeLine{00723\ }
+\DoxyCodeLine{00724\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Doctor\ is\ full.\ "{}}}
+\DoxyCodeLine{00725\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Leaving\ clinic.\(\backslash\)n"{}},}
+\DoxyCodeLine{00726\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00727\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{00728\ }
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00730\ }
+\DoxyCodeLine{00731\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00732\ \ \ \ \ \}}
+\DoxyCodeLine{00733\ }
+\DoxyCodeLine{00734\ }
+\DoxyCodeLine{00735\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00736\ \textcolor{comment}{\ \ \ \ \ \ \ ENTER\ WAITING\ ROOM}}
+\DoxyCodeLine{00737\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00738\ }
+\DoxyCodeLine{00739\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}\ <\ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}})}
+\DoxyCodeLine{00740\ \ \ \ \ \{}
+\DoxyCodeLine{00741\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07}{arrivalCounter}}++;}
+\DoxyCodeLine{00742\ }
+\DoxyCodeLine{00743\ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a05fd409523bb1e5f1096c62e09494dd4}{arrivalOrder}}\ =\ \mbox{\hyperlink{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07}{arrivalCounter}};}
+\DoxyCodeLine{00744\ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a1bfc38052e92c85c7ff23a8c5c0247d8}{waiting}}\ =\ 1;}
+\DoxyCodeLine{00745\ }
+\DoxyCodeLine{00746\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}++;}
+\DoxyCodeLine{00747\ }
+\DoxyCodeLine{00748\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Sitting\ in\ waiting\ room.\(\backslash\)n"{}},}
+\DoxyCodeLine{00749\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00750\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{00751\ }
+\DoxyCodeLine{00752\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Chair\ \%d/\%d\ |\ "{}}}
+\DoxyCodeLine{00753\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FCFS\ Order\ \#\%d\(\backslash\)n"{}},}
+\DoxyCodeLine{00754\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}},}
+\DoxyCodeLine{00756\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}},}
+\DoxyCodeLine{00757\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}},}
+\DoxyCodeLine{00758\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a05fd409523bb1e5f1096c62e09494dd4}{arrivalOrder}});}
+\DoxyCodeLine{00759\ }
+\DoxyCodeLine{00760\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00761\ }
+\DoxyCodeLine{00762\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Notify\ dentist\ */}}
+\DoxyCodeLine{00763\ \ \ \ \ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}});}
+\DoxyCodeLine{00764\ }
+\DoxyCodeLine{00765\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Wait\ until\ dentist\ calls\ this\ patient\ */}}
+\DoxyCodeLine{00766\ \ \ \ \ \ \ \ \ sem\_wait(\&p-\/>\mbox{\hyperlink{structpatient_acd73907f32c9d444717b4ce9ff091bee}{dentistCallSem}});}
+\DoxyCodeLine{00767\ }
+\DoxyCodeLine{00768\ \ \ \ \ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00769\ }
+\DoxyCodeLine{00770\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p-\/>\mbox{\hyperlink{structpatient_a01cd7312bceb127e900dcfc6d9207b48}{leftDoctorFull}}\ ==\ 1)}
+\DoxyCodeLine{00771\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00772\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Sent\ home\ because\ "{}}}
+\DoxyCodeLine{00773\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}doctor\ is\ full.\(\backslash\)n"{}},}
+\DoxyCodeLine{00774\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00775\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{00776\ }
+\DoxyCodeLine{00777\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00778\ }
+\DoxyCodeLine{00779\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00780\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00781\ }
+\DoxyCodeLine{00782\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00783\ }
+\DoxyCodeLine{00784\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Entering\ treatment\ room.\(\backslash\)n"{}},}
+\DoxyCodeLine{00785\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00786\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{00787\ }
+\DoxyCodeLine{00788\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ treatment\ */}}
+\DoxyCodeLine{00789\ \ \ \ \ \ \ \ \ sem\_wait(\&p-\/>\mbox{\hyperlink{structpatient_a50d7808aad0ab7dc29db0de30400ecb2}{treatmentDoneSem}});}
+\DoxyCodeLine{00790\ }
+\DoxyCodeLine{00791\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Treatment\ completed.\ "{}}}
+\DoxyCodeLine{00792\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Leaving\ clinic.\(\backslash\)n"{}},}
+\DoxyCodeLine{00793\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00794\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{00795\ \ \ \ \ \}}
+\DoxyCodeLine{00796\ }
+\DoxyCodeLine{00797\ }
+\DoxyCodeLine{00798\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00799\ \textcolor{comment}{\ \ \ \ \ \ \ WAITING\ ROOM\ FULL}}
+\DoxyCodeLine{00800\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00801\ }
+\DoxyCodeLine{00802\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00803\ \ \ \ \ \{}
+\DoxyCodeLine{00804\ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a4cd265058bdaac477f8c5f1f11a4d4ab}{leftNoChair}}\ =\ 1;}
+\DoxyCodeLine{00805\ }
+\DoxyCodeLine{00806\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Waiting\ room\ is\ FULL\ "{}}}
+\DoxyCodeLine{00807\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}(\%d/\%d).\ Leaving\ clinic.\(\backslash\)n"{}},}
+\DoxyCodeLine{00808\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{00809\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}},}
+\DoxyCodeLine{00810\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}},}
+\DoxyCodeLine{00811\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}});}
+\DoxyCodeLine{00812\ }
+\DoxyCodeLine{00813\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00814\ \ \ \ \ \}}
+\DoxyCodeLine{00815\ }
+\DoxyCodeLine{00816\ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00817\ \}}
+
+\end{DoxyCode}
+\Hypertarget{dentist_8c_acb24d60c8c787057ced98f1e97eeddda}\index{dentist.c@{dentist.c}!printPatientTable@{printPatientTable}}
+\index{printPatientTable@{printPatientTable}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{printPatientTable()}{printPatientTable()}}
+{\footnotesize\ttfamily \label{dentist_8c_acb24d60c8c787057ced98f1e97eeddda} 
+void print\+Patient\+Table (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Displays the final patient table. 
+
+Displays final results of all patients. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00827}{827}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00828\ \{}
+\DoxyCodeLine{00829\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{00830\ }
+\DoxyCodeLine{00831\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{00832\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ ID\ \ |\ Name\ \ \ \ \ \ \ \ \ \ \ \ \ |\ Appointment\ \ \ |\ Result\ \ \ \ \ \ \ \ \ \ \ |\(\backslash\)n"{}});}
+\DoxyCodeLine{00833\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{00834\ }
+\DoxyCodeLine{00835\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{00836\ \ \ \ \ \{}
+\DoxyCodeLine{00837\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ appointmentText[20];}
+\DoxyCodeLine{00838\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ resultText[30];}
+\DoxyCodeLine{00839\ }
+\DoxyCodeLine{00840\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].appointment\ ==\ 1)}
+\DoxyCodeLine{00841\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00842\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(appointmentText,\ \textcolor{stringliteral}{"{}Confirmed"{}});}
+\DoxyCodeLine{00843\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00844\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00845\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00846\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(appointmentText,\ \textcolor{stringliteral}{"{}Not\ confirmed"{}});}
+\DoxyCodeLine{00847\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00848\ }
+\DoxyCodeLine{00849\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].treated\ ==\ 1)}
+\DoxyCodeLine{00850\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00851\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(resultText,\ \textcolor{stringliteral}{"{}Treated"{}});}
+\DoxyCodeLine{00852\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00853\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].noShow\ ==\ 1)}
+\DoxyCodeLine{00854\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00855\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(resultText,\ \textcolor{stringliteral}{"{}No-\/show"{}});}
+\DoxyCodeLine{00856\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00857\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].leftNoChair\ ==\ 1)}
+\DoxyCodeLine{00858\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00859\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(resultText,\ \textcolor{stringliteral}{"{}Room\ full"{}});}
+\DoxyCodeLine{00860\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00861\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].leftDoctorFull\ ==\ 1)}
+\DoxyCodeLine{00862\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00863\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(resultText,\ \textcolor{stringliteral}{"{}Doctor\ full"{}});}
+\DoxyCodeLine{00864\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00865\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00866\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00867\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(resultText,\ \textcolor{stringliteral}{"{}Left"{}});}
+\DoxyCodeLine{00868\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00869\ }
+\DoxyCodeLine{00870\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ \%-\/3d\ |\ \%-\/16s\ |\ \%-\/13s\ |\ \%-\/16s\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00871\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\textcolor{keywordtype}{id},}
+\DoxyCodeLine{00872\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].name,}
+\DoxyCodeLine{00873\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ appointmentText,}
+\DoxyCodeLine{00874\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resultText);}
+\DoxyCodeLine{00875\ \ \ \ \ \}}
+\DoxyCodeLine{00876\ }
+\DoxyCodeLine{00877\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{00878\ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=255pt]{dentist_8c_acb24d60c8c787057ced98f1e97eeddda_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e}\index{dentist.c@{dentist.c}!printStatistics@{printStatistics}}
+\index{printStatistics@{printStatistics}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{printStatistics()}{printStatistics()}}
+{\footnotesize\ttfamily \label{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e} 
+void print\+Statistics (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Displays final clinic statistics. 
+
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00888}{888}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00889\ \{}
+\DoxyCodeLine{00890\ \ \ \ \ \textcolor{keywordtype}{int}\ noShowCount\ =\ 0;}
+\DoxyCodeLine{00891\ \ \ \ \ \textcolor{keywordtype}{int}\ roomFullCount\ =\ 0;}
+\DoxyCodeLine{00892\ \ \ \ \ \textcolor{keywordtype}{int}\ doctorFullCount\ =\ 0;}
+\DoxyCodeLine{00893\ }
+\DoxyCodeLine{00894\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{00895\ \ \ \ \ \{}
+\DoxyCodeLine{00896\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].noShow\ ==\ 1)}
+\DoxyCodeLine{00897\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00898\ \ \ \ \ \ \ \ \ \ \ \ \ noShowCount++;}
+\DoxyCodeLine{00899\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00900\ }
+\DoxyCodeLine{00901\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].leftNoChair\ ==\ 1)}
+\DoxyCodeLine{00902\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00903\ \ \ \ \ \ \ \ \ \ \ \ \ roomFullCount++;}
+\DoxyCodeLine{00904\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00905\ }
+\DoxyCodeLine{00906\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].leftDoctorFull\ ==\ 1)}
+\DoxyCodeLine{00907\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00908\ \ \ \ \ \ \ \ \ \ \ \ \ doctorFullCount++;}
+\DoxyCodeLine{00909\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00910\ \ \ \ \ \}}
+\DoxyCodeLine{00911\ }
+\DoxyCodeLine{00912\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{00913\ }
+\DoxyCodeLine{00914\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{00915\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ STATISTICS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\(\backslash\)n"{}});}
+\DoxyCodeLine{00916\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{00917\ }
+\DoxyCodeLine{00918\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Total\ patients\ \ \ \ \ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00919\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}});}
+\DoxyCodeLine{00920\ }
+\DoxyCodeLine{00921\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Confirmed\ appointments:\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00922\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58}{confirmedAppointments}});}
+\DoxyCodeLine{00923\ }
+\DoxyCodeLine{00924\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Patients\ treated\ \ \ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00925\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}});}
+\DoxyCodeLine{00926\ }
+\DoxyCodeLine{00927\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ No-\/show\ patients\ \ \ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00928\ \ \ \ \ \ \ \ \ \ \ \ noShowCount);}
+\DoxyCodeLine{00929\ }
+\DoxyCodeLine{00930\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Room-\/full\ patients\ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00931\ \ \ \ \ \ \ \ \ \ \ \ roomFullCount);}
+\DoxyCodeLine{00932\ }
+\DoxyCodeLine{00933\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Doctor-\/full\ patients\ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00934\ \ \ \ \ \ \ \ \ \ \ \ doctorFullCount);}
+\DoxyCodeLine{00935\ }
+\DoxyCodeLine{00936\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Waiting\ room\ chairs\ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00937\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}});}
+\DoxyCodeLine{00938\ }
+\DoxyCodeLine{00939\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Doctor\ capacity\ \ \ \ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00940\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}});}
+\DoxyCodeLine{00941\ }
+\DoxyCodeLine{00942\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Appointment\ slots\ \ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00943\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}});}
+\DoxyCodeLine{00944\ }
+\DoxyCodeLine{00945\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Scheduling\ \ \ \ \ \ \ \ \ \ \ \ :\ \%-\/16s\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{00946\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FIFO\ /\ FCFS"{}});}
+\DoxyCodeLine{00947\ }
+\DoxyCodeLine{00948\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{00949\ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1}\index{dentist.c@{dentist.c}!receptionist@{receptionist}}
+\index{receptionist@{receptionist}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{receptionist()}{receptionist()}}
+{\footnotesize\ttfamily \label{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1} 
+void \texorpdfstring{$\ast$}{*} receptionist (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
+
+
+
+Receptionist thread function. 
+
+Receptionist thread.
+
+Handles appointment requests from patients.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Thread argument. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when the thread finishes.
+\end{DoxyReturn}
+The receptionist waits for appointment requests and assigns available appointment slots.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Thread argument. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when receptionist exits. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00407}{407}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00408\ \{}
+\DoxyCodeLine{00409\ \ \ \ \ (void)arg;}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Receptionist]\ Online.\(\backslash\)n"{}});}
+\DoxyCodeLine{00412\ }
+\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{00414\ \ \ \ \ \{}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ appointment\ request\ */}}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ sem\_wait(\&\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}});}
+\DoxyCodeLine{00417\ }
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Check\ clinic\ closing\ */}}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_adf0438cfffc0798bbb393d7189808846}{clinicClosed}}\ ==\ 1)}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Find\ request\ */}}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id}\ =\ \mbox{\hyperlink{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0}{findNextRequest}}();}
+\DoxyCodeLine{00429\ }
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{id}\ ==\ -\/1)}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00435\ }
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[id].requestPending\ =\ 0;}
+\DoxyCodeLine{00437\ }
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Check\ appointment\ availability\ */}}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}\ <\ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}})}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[id].appointment\ =\ 1;}
+\DoxyCodeLine{00442\ }
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}++;}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58}{confirmedAppointments}}++;}
+\DoxyCodeLine{00445\ }
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Receptionist]\ \%s\ (ID\ \%d)\ -\/\ "{}}}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Appointment\ CONFIRMED\ [\%d/\%d]\(\backslash\)n"{}},}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].name,}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\textcolor{keywordtype}{id},}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}},}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}});}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[id].appointment\ =\ 0;}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Receptionist]\ \%s\ (ID\ \%d)\ -\/\ "{}}}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}No\ appointment\ slot.\ Walk-\/in\ allowed.\(\backslash\)n"{}},}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].name,}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00462\ }
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Reply\ to\ exact\ patient\ */}}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].replySem);}
+\DoxyCodeLine{00467\ \ \ \ \ \}}
+\DoxyCodeLine{00468\ }
+\DoxyCodeLine{00469\ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Receptionist]\ Closing.\(\backslash\)n"{}});}
+\DoxyCodeLine{00470\ }
+\DoxyCodeLine{00471\ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00472\ \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=287pt]{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f}\index{dentist.c@{dentist.c}!showProjectInfo@{showProjectInfo}}
+\index{showProjectInfo@{showProjectInfo}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{showProjectInfo()}{showProjectInfo()}}
+{\footnotesize\ttfamily \label{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f} 
+void show\+Project\+Info (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Displays the contents of project\+\_\+info.\+txt. 
+
+Reads and displays project\+\_\+info.\+txt.
+
+This function connects the external text documentation file with the C program. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00365}{365}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00366\ \{}
+\DoxyCodeLine{00367\ \ \ \ \ FILE\ *file;}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00369\ \ \ \ \ file\ =\ fopen(\textcolor{stringliteral}{"{}project\_info.txt"{}},\ \textcolor{stringliteral}{"{}r"{}});}
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00371\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\ ==\ NULL)}
+\DoxyCodeLine{00372\ \ \ \ \ \{}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)nproject\_info.txt\ file\ not\ found.\(\backslash\)n"{}});}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00375\ \ \ \ \ \}}
+\DoxyCodeLine{00376\ }
+\DoxyCodeLine{00377\ \ \ \ \ \textcolor{keywordtype}{char}\ line[200];}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00379\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{00380\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PROJECT\ INFORMATION\(\backslash\)n"{}});}
+\DoxyCodeLine{00381\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{00382\ }
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordflow}{while}\ (fgets(line,\ \textcolor{keyword}{sizeof}(line),\ file))}
+\DoxyCodeLine{00384\ \ \ \ \ \{}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\%s"{}},\ line);}
+\DoxyCodeLine{00386\ \ \ \ \ \}}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00388\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{00391\ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=251pt]{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f_icgraph}
+\end{center}
+\end{figure}
+
+
+\label{doc-var-members}
+\Hypertarget{dentist_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}\index{dentist.c@{dentist.c}!activeAppointments@{activeAppointments}}
+\index{activeAppointments@{activeAppointments}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{activeAppointments}{activeAppointments}}
+{\footnotesize\ttfamily \label{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22} 
+int active\+Appointments = 0}
+
+Currently active appointment slots. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00114}{114}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}\index{dentist.c@{dentist.c}!appointmentSlots@{appointmentSlots}}
+\index{appointmentSlots@{appointmentSlots}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{appointmentSlots}{appointmentSlots}}
+{\footnotesize\ttfamily \label{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c} 
+int appointment\+Slots}
+
+Number of available appointment slots. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00102}{102}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07}\index{dentist.c@{dentist.c}!arrivalCounter@{arrivalCounter}}
+\index{arrivalCounter@{arrivalCounter}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{arrivalCounter}{arrivalCounter}}
+{\footnotesize\ttfamily \label{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07} 
+int arrival\+Counter = 0}
+
+Counter used for FIFO / FCFS order. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00117}{117}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_adf0438cfffc0798bbb393d7189808846}\index{dentist.c@{dentist.c}!clinicClosed@{clinicClosed}}
+\index{clinicClosed@{clinicClosed}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{clinicClosed}{clinicClosed}}
+{\footnotesize\ttfamily \label{dentist_8c_adf0438cfffc0798bbb393d7189808846} 
+int clinic\+Closed = 0}
+
+Indicates whether the clinic is closed. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00120}{120}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58}\index{dentist.c@{dentist.c}!confirmedAppointments@{confirmedAppointments}}
+\index{confirmedAppointments@{confirmedAppointments}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{confirmedAppointments}{confirmedAppointments}}
+{\footnotesize\ttfamily \label{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58} 
+int confirmed\+Appointments = 0}
+
+Total number of confirmed appointments. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00111}{111}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}\index{dentist.c@{dentist.c}!doctorCapacity@{doctorCapacity}}
+\index{doctorCapacity@{doctorCapacity}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{doctorCapacity}{doctorCapacity}}
+{\footnotesize\ttfamily \label{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9} 
+int doctor\+Capacity}
+
+Maximum number of patients the doctor can treat. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00099}{99}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}\index{dentist.c@{dentist.c}!mutex@{mutex}}
+\index{mutex@{mutex}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{mutex}{mutex}}
+{\footnotesize\ttfamily \label{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3} 
+pthread\+\_\+mutex\+\_\+t mutex}
+
+
+
+Mutex used to protect shared data. 
+
+This mutex protects critical sections where multiple threads access shared variables. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00145}{145}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}\index{dentist.c@{dentist.c}!patientReady@{patientReady}}
+\index{patientReady@{patientReady}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{patientReady}{patientReady}}
+{\footnotesize\ttfamily \label{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360} 
+sem\+\_\+t patient\+Ready}
+
+
+
+Semaphore used to notify the dentist when a patient enters the waiting room. 
+
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00159}{159}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}\index{dentist.c@{dentist.c}!patients@{patients}}
+\index{patients@{patients}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{patients}{patients}}
+{\footnotesize\ttfamily \label{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb} 
+struct \mbox{\hyperlink{structpatient}{patient}}\texorpdfstring{$\ast$}{*} patients}
+
+
+
+Pointer to dynamically allocated patient array. 
+
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00126}{126}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}\index{dentist.c@{dentist.c}!patientThreads@{patientThreads}}
+\index{patientThreads@{patientThreads}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{patientThreads}{patientThreads}}
+{\footnotesize\ttfamily \label{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3} 
+pthread\+\_\+t\texorpdfstring{$\ast$}{*} patient\+Threads}
+
+
+
+Pointer to dynamically allocated patient thread array. 
+
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00132}{132}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_a4a5bacaa502f4925373193829cefd232}\index{dentist.c@{dentist.c}!requestReady@{requestReady}}
+\index{requestReady@{requestReady}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{requestReady}{requestReady}}
+{\footnotesize\ttfamily \label{dentist_8c_a4a5bacaa502f4925373193829cefd232} 
+sem\+\_\+t request\+Ready}
+
+
+
+Semaphore used to notify the receptionist when a patient requests an appointment. 
+
+
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00152}{152}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}\index{dentist.c@{dentist.c}!totalPatients@{totalPatients}}
+\index{totalPatients@{totalPatients}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{totalPatients}{totalPatients}}
+{\footnotesize\ttfamily \label{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a} 
+int total\+Patients}
+
+Total number of patients. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00093}{93}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}\index{dentist.c@{dentist.c}!treatedPatients@{treatedPatients}}
+\index{treatedPatients@{treatedPatients}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{treatedPatients}{treatedPatients}}
+{\footnotesize\ttfamily \label{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c} 
+int treated\+Patients = 0}
+
+Number of patients already treated. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00108}{108}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}\index{dentist.c@{dentist.c}!waitingPatients@{waitingPatients}}
+\index{waitingPatients@{waitingPatients}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{waitingPatients}{waitingPatients}}
+{\footnotesize\ttfamily \label{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682} 
+int waiting\+Patients = 0}
+
+Current number of patients in waiting room. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00105}{105}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}\index{dentist.c@{dentist.c}!waitingRoomChairs@{waitingRoomChairs}}
+\index{waitingRoomChairs@{waitingRoomChairs}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{waitingRoomChairs}{waitingRoomChairs}}
+{\footnotesize\ttfamily \label{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778} 
+int waiting\+Room\+Chairs}
+
+Number of chairs in the waiting room. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00096}{96}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+

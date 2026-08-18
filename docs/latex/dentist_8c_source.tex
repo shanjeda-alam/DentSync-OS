@@ -1,0 +1,1022 @@
+\doxysection{dentist.\+c}
+\hypertarget{dentist_8c_source}{}\label{dentist_8c_source}\mbox{\hyperlink{dentist_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00049}00049\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00050}00050\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00051}00051\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00052}00052\ \textcolor{preprocessor}{\#include\ <pthread.h>}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00053}00053\ \textcolor{preprocessor}{\#include\ <semaphore.h>}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00054}00054\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00064}\mbox{\hyperlink{structpatient}{00064}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpatient}{patient}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00065}00065\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00066}\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{00066}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00067}\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{00067}}\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}}[64];\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00069}\mbox{\hyperlink{structpatient_a5e70ddea830bbd84227ff7007bced89d}{00069}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpatient_a5e70ddea830bbd84227ff7007bced89d}{appointment}};\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00070}\mbox{\hyperlink{structpatient_ad18cb6117b28280239c45d80384da07f}{00070}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpatient_ad18cb6117b28280239c45d80384da07f}{willArrive}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00072}\mbox{\hyperlink{structpatient_a05fd409523bb1e5f1096c62e09494dd4}{00072}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpatient_a05fd409523bb1e5f1096c62e09494dd4}{arrivalOrder}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00073}\mbox{\hyperlink{structpatient_a1bfc38052e92c85c7ff23a8c5c0247d8}{00073}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpatient_a1bfc38052e92c85c7ff23a8c5c0247d8}{waiting}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00075}\mbox{\hyperlink{structpatient_a48a2d8f61a364534ba4d49d3b614a899}{00075}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpatient_a48a2d8f61a364534ba4d49d3b614a899}{treated}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00076}\mbox{\hyperlink{structpatient_a4664ba0fd23fd269d1c1d99728d41de3}{00076}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpatient_a4664ba0fd23fd269d1c1d99728d41de3}{noShow}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00077}\mbox{\hyperlink{structpatient_a4cd265058bdaac477f8c5f1f11a4d4ab}{00077}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpatient_a4cd265058bdaac477f8c5f1f11a4d4ab}{leftNoChair}};\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00078}\mbox{\hyperlink{structpatient_a01cd7312bceb127e900dcfc6d9207b48}{00078}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpatient_a01cd7312bceb127e900dcfc6d9207b48}{leftDoctorFull}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00080}\mbox{\hyperlink{structpatient_af39e6f8fef51843e6166eb1c4fe01f3f}{00080}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structpatient_af39e6f8fef51843e6166eb1c4fe01f3f}{requestPending}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00082}\mbox{\hyperlink{structpatient_adc081f0db61cb5eecb92d05be47ecd43}{00082}}\ \ \ \ \ sem\_t\ \mbox{\hyperlink{structpatient_adc081f0db61cb5eecb92d05be47ecd43}{replySem}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00083}\mbox{\hyperlink{structpatient_acd73907f32c9d444717b4ce9ff091bee}{00083}}\ \ \ \ \ sem\_t\ \mbox{\hyperlink{structpatient_acd73907f32c9d444717b4ce9ff091bee}{dentistCallSem}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00084}\mbox{\hyperlink{structpatient_a50d7808aad0ab7dc29db0de30400ecb2}{00084}}\ \ \ \ \ sem\_t\ \mbox{\hyperlink{structpatient_a50d7808aad0ab7dc29db0de30400ecb2}{treatmentDoneSem}};\ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00085}00085\ \};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00088}00088\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00089}00089\ \textcolor{comment}{\ \ \ GLOBAL\ VARIABLES}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00090}00090\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00093}\mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{00093}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00096}\mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{00096}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00099}\mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{00099}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00102}\mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{00102}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00105}\mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{00105}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00108}\mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{00108}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00111}\mbox{\hyperlink{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58}{00111}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58}{confirmedAppointments}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00114}\mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{00114}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00117}\mbox{\hyperlink{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07}{00117}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07}{arrivalCounter}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00120}\mbox{\hyperlink{dentist_8c_adf0438cfffc0798bbb393d7189808846}{00120}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_adf0438cfffc0798bbb393d7189808846}{clinicClosed}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00126}\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{00126}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpatient}{patient}}\ *\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00132}\mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{00132}}\ pthread\_t\ *\mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00135}00135\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00136}00136\ \textcolor{comment}{\ \ \ MUTEX\ AND\ SEMAPHORES}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00137}00137\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00145}\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{00145}}\ pthread\_mutex\_t\ \mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00152}\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{00152}}\ sem\_t\ \mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00159}\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{00159}}\ sem\_t\ \mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00162}00162\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00163}00163\ \textcolor{comment}{\ \ \ FUNCTION\ DECLARATIONS}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00164}00164\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00171}00171\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dentist_8c_a8055ad91129e9a86149941ee2edd6672}{initializePatient}}(\textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00179}00179\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dentist_8c_ad3424ae12395de9db164ab12c1439f3d}{destroyPatient}}(\textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00187}00187\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368}{findNextPatient}}();}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00189}00189\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00195}00195\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0}{findNextRequest}}();}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00206}00206\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1}{receptionist}}(\textcolor{keywordtype}{void}\ *arg);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00217}00217\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{dentist_8c_ad760421f42ea6d16830513d6ba7a0440}{dentist}}(\textcolor{keywordtype}{void}\ *arg);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00229}00229\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{dentist_8c_a4452e89b8dc95607d60d69487673f2de}{patient}}(\textcolor{keywordtype}{void}\ *arg);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00235}00235\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dentist_8c_acb24d60c8c787057ced98f1e97eeddda}{printPatientTable}}();}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00236}00236\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00241}00241\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e}{printStatistics}}();}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00247}00247\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f}{showProjectInfo}}();}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00250}00250\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00251}00251\ \textcolor{comment}{\ \ \ INITIALIZE\ PATIENT}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00252}00252\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00262}\mbox{\hyperlink{dentist_8c_a8055ad91129e9a86149941ee2edd6672}{00262}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dentist_8c_a8055ad91129e9a86149941ee2edd6672}{initializePatient}}(\textcolor{keywordtype}{int}\ i)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00263}00263\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00264}00264\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].id\ =\ i\ +\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00266}00266\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].appointment\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00267}00267\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].willArrive\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00269}00269\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].arrivalOrder\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00270}00270\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].waiting\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00272}00272\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].treated\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00273}00273\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].noShow\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00274}00274\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].leftNoChair\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00275}00275\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].leftDoctorFull\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00277}00277\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].requestPending\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00279}00279\ \ \ \ \ sem\_init(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_adc081f0db61cb5eecb92d05be47ecd43}{replySem}},\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00280}00280\ \ \ \ \ sem\_init(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_acd73907f32c9d444717b4ce9ff091bee}{dentistCallSem}},\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00281}00281\ \ \ \ \ sem\_init(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a50d7808aad0ab7dc29db0de30400ecb2}{treatmentDoneSem}},\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00282}00282\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00284}00284\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00285}00285\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00286}00286\ \textcolor{comment}{\ \ \ DESTROY\ PATIENT}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00287}00287\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00288}00288\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00294}\mbox{\hyperlink{dentist_8c_ad3424ae12395de9db164ab12c1439f3d}{00294}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dentist_8c_ad3424ae12395de9db164ab12c1439f3d}{destroyPatient}}(\textcolor{keywordtype}{int}\ i)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00295}00295\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00296}00296\ \ \ \ \ sem\_destroy(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_adc081f0db61cb5eecb92d05be47ecd43}{replySem}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00297}00297\ \ \ \ \ sem\_destroy(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_acd73907f32c9d444717b4ce9ff091bee}{dentistCallSem}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00298}00298\ \ \ \ \ sem\_destroy(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a50d7808aad0ab7dc29db0de30400ecb2}{treatmentDoneSem}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00299}00299\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00302}00302\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00303}00303\ \textcolor{comment}{\ \ \ FIND\ NEXT\ PATIENT}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00304}00304\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00305}00305\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00313}\mbox{\hyperlink{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368}{00313}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368}{findNextPatient}}()}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00314}00314\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00315}00315\ \ \ \ \ \textcolor{keywordtype}{int}\ selected\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00316}00316\ \ \ \ \ \textcolor{keywordtype}{int}\ smallestOrder\ =\ 999999;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00318}00318\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00319}00319\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a1bfc38052e92c85c7ff23a8c5c0247d8}{waiting}}\ ==\ 1\ \&\&}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a05fd409523bb1e5f1096c62e09494dd4}{arrivalOrder}}\ <\ smallestOrder)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00322}00322\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ smallestOrder\ =\ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].arrivalOrder;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ selected\ =\ i;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00325}00325\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00326}00326\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00327}00327\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00328}00328\ \ \ \ \ \textcolor{keywordflow}{return}\ selected;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00329}00329\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00330}00330\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00332}00332\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00333}00333\ \textcolor{comment}{\ \ \ FIND\ NEXT\ REQUEST}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00334}00334\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00341}\mbox{\hyperlink{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0}{00341}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0}{findNextRequest}}()}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00342}00342\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00343}00343\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00344}00344\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00345}00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_af39e6f8fef51843e6166eb1c4fe01f3f}{requestPending}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00346}00346\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ i;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00348}00348\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00349}00349\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00351}00351\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00352}00352\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00353}00353\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00355}00355\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00356}00356\ \textcolor{comment}{\ \ \ SHOW\ PROJECT\ INFO}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00357}00357\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00358}00358\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00365}\mbox{\hyperlink{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f}{00365}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f}{showProjectInfo}}()}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00366}00366\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00367}00367\ \ \ \ \ FILE\ *file;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00369}00369\ \ \ \ \ file\ =\ fopen(\textcolor{stringliteral}{"{}project\_info.txt"{}},\ \textcolor{stringliteral}{"{}r"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00370}00370\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00371}00371\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00372}00372\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00373}00373\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)nproject\_info.txt\ file\ not\ found.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00374}00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00375}00375\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00376}00376\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00377}00377\ \ \ \ \ \textcolor{keywordtype}{char}\ line[200];}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00378}00378\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00379}00379\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00380}00380\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PROJECT\ INFORMATION\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00381}00381\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00383}00383\ \ \ \ \ \textcolor{keywordflow}{while}\ (fgets(line,\ \textcolor{keyword}{sizeof}(line),\ file))}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00384}00384\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00385}00385\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\%s"{}},\ line);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00386}00386\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00387}00387\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00388}00388\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00389}00389\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00390}00390\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00391}00391\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00392}00392\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00393}00393\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00394}00394\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00395}00395\ \textcolor{comment}{\ \ \ RECEPTIONIST\ THREAD}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00396}00396\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00407}\mbox{\hyperlink{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1}{00407}}\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1}{receptionist}}(\textcolor{keywordtype}{void}\ *arg)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00408}00408\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00409}00409\ \ \ \ \ (void)arg;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00410}00410\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00411}00411\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Receptionist]\ Online.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00412}00412\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00413}00413\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00414}00414\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00415}00415\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ appointment\ request\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00416}00416\ \ \ \ \ \ \ \ \ sem\_wait(\&\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00418}00418\ \ \ \ \ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00419}00419\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00420}00420\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Check\ clinic\ closing\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00421}00421\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_adf0438cfffc0798bbb393d7189808846}{clinicClosed}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00422}00422\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00425}00425\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00426}00426\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00427}00427\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Find\ request\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00428}00428\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id}\ =\ \mbox{\hyperlink{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0}{findNextRequest}}();}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00429}00429\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00430}00430\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{id}\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00431}00431\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00434}00434\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00435}00435\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00436}00436\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}}].requestPending\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00437}00437\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00438}00438\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Check\ appointment\ availability\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00439}00439\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}\ <\ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}})}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00440}00440\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}}].appointment\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00442}00442\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}++;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58}{confirmedAppointments}}++;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00445}00445\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Receptionist]\ \%s\ (ID\ \%d)\ -\/\ "{}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Appointment\ CONFIRMED\ [\%d/\%d]\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\textcolor{keywordtype}{id},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00452}00452\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00453}00453\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00454}00454\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00455}00455\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}}].appointment\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00456}00456\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Receptionist]\ \%s\ (ID\ \%d)\ -\/\ "{}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00458}00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}No\ appointment\ slot.\ Walk-\/in\ allowed.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00461}00461\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00462}00462\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00463}00463\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00464}00464\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00465}00465\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Reply\ to\ exact\ patient\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00466}00466\ \ \ \ \ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\mbox{\hyperlink{structpatient_adc081f0db61cb5eecb92d05be47ecd43}{replySem}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00467}00467\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00469}00469\ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Receptionist]\ Closing.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00470}00470\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00471}00471\ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00472}00472\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00473}00473\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00474}00474\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00475}00475\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00476}00476\ \textcolor{comment}{\ \ \ DENTIST\ THREAD}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00477}00477\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00478}00478\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00488}\mbox{\hyperlink{dentist_8c_ad760421f42ea6d16830513d6ba7a0440}{00488}}\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{dentist_8c_ad760421f42ea6d16830513d6ba7a0440}{dentist}}(\textcolor{keywordtype}{void}\ *arg)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00489}00489\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00490}00490\ \ \ \ \ (void)arg;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00491}00491\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00492}00492\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Dr.\ Smith]\ Clinic\ is\ open.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00493}00493\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00494}00494\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00495}00495\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00496}00496\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ patient\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00497}00497\ \ \ \ \ \ \ \ \ sem\_wait(\&\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00498}00498\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00499}00499\ \ \ \ \ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00500}00500\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00501}00501\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Close\ clinic\ when\ no\ patient\ remains\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00502}00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_adf0438cfffc0798bbb393d7189808846}{clinicClosed}}\ ==\ 1\ \&\&}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00504}00504\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00507}00507\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00508}00508\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00509}00509\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Doctor\ has\ treatment\ capacity\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00510}00510\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}\ >\ 0\ \&\&}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}}\ <\ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}})}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00512}00512\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id}\ =\ \mbox{\hyperlink{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368}{findNextPatient}}();}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00514}00514\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{id}\ !=\ -\/1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}}].waiting\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00519}00519\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Dr.\ Smith]\ Calling\ \%s\ (ID\ \%d)\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00522}00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00523}00523\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ FCFS\ Order:\ \#\%d\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\mbox{\hyperlink{structpatient_a05fd409523bb1e5f1096c62e09494dd4}{arrivalOrder}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00526}00526\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ Waiting\ room:\ \%d/\%d\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00530}00530\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00532}00532\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Call\ exact\ patient\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\mbox{\hyperlink{structpatient_acd73907f32c9d444717b4ce9ff091bee}{dentistCallSem}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00535}00535\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ Treating\ \%s...\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00538}00538\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Treatment\ simulation\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sleep(2);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00541}00541\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00542}00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ Treatment\ finished\ for\ \%s.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00544}00544\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00546}00546\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}}++;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}}].treated\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00549}00549\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00550}00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Release\ appointment\ slot\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00551}00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\mbox{\hyperlink{structpatient_a5e70ddea830bbd84227ff7007bced89d}{appointment}}\ ==\ 1\ \&\&}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00555}00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00556}00556\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00558}00558\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00559}00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Notify\ patient\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[\textcolor{keywordtype}{id}].\mbox{\hyperlink{structpatient_a50d7808aad0ab7dc29db0de30400ecb2}{treatmentDoneSem}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00561}00561\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00562}00562\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00563}00563\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00564}00564\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00565}00565\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00566}00566\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00567}00567\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00568}00568\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Doctor\ capacity\ reached\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00569}00569\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}\ >\ 0\ \&\&}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00570}00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}}\ >=\ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}})}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00571}00571\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00572}00572\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Dr.\ Smith]\ Daily\ treatment\ limit\ reached.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ Remaining\ patients\ must\ leave.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00574}00574\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00575}00575\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00576}00576\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a1bfc38052e92c85c7ff23a8c5c0247d8}{waiting}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00579}00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].waiting\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00580}00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].leftDoctorFull\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00581}00581\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00582}00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00583}00583\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Dr.\ Smith]\ \%s\ (ID\ \%d)\ -\/\ "{}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Left\ because\ doctor\ is\ full.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00588}00588\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00589}00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_acd73907f32c9d444717b4ce9ff091bee}{dentistCallSem}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00590}00590\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00591}00591\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00592}00592\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00593}00593\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00594}00594\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00595}00595\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00596}00596\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00597}00597\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00598}00598\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00599}00599\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00600}00600\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00601}00601\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Dr.\ Smith]\ Closing.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00602}00602\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00603}00603\ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00604}00604\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00605}00605\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00606}00606\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00607}00607\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00608}00608\ \textcolor{comment}{\ \ \ PATIENT\ THREAD}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00609}00609\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00610}00610\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00625}\mbox{\hyperlink{dentist_8c_a4452e89b8dc95607d60d69487673f2de}{00625}}\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{dentist_8c_a4452e89b8dc95607d60d69487673f2de}{patient}}(\textcolor{keywordtype}{void}\ *arg)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00626}00626\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00627}00627\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00628}00628\ \textcolor{comment}{\ \ \ \ \ *\ Pointer\ to\ patient\ structure.}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00629}00629\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00630}00630\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpatient}{patient}}\ *p\ =\ (\textcolor{keyword}{struct\ }\mbox{\hyperlink{structpatient}{patient}}\ *)arg;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00631}00631\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00632}00632\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00633}00633\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00634}00634\ \textcolor{comment}{\ \ \ \ \ \ \ REQUEST\ APPOINTMENT}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00635}00635\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00636}00636\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00637}00637\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Patient\ \%d\ |\ \%s]\ Requesting\ appointment.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00638}00638\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00639}00639\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00640}00640\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00641}00641\ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00642}00642\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00643}00643\ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_af39e6f8fef51843e6166eb1c4fe01f3f}{requestPending}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00644}00644\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00645}00645\ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00646}00646\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00647}00647\ \ \ \ \ \textcolor{comment}{/*\ Notify\ receptionist\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00648}00648\ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00649}00649\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00650}00650\ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ receptionist\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00651}00651\ \ \ \ \ sem\_wait(\&p-\/>\mbox{\hyperlink{structpatient_adc081f0db61cb5eecb92d05be47ecd43}{replySem}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00652}00652\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00653}00653\ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Appointment:\ "{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00654}00654\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00655}00655\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00656}00656\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00657}00657\ \ \ \ \ \textcolor{keywordflow}{if}\ (p-\/>\mbox{\hyperlink{structpatient_a5e70ddea830bbd84227ff7007bced89d}{appointment}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00658}00658\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00659}00659\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}CONFIRMED\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00660}00660\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00661}00661\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00662}00662\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00663}00663\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}NOT\ CONFIRMED\ /\ WALK-\/IN\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00664}00664\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00665}00665\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00666}00666\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00667}00667\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00668}00668\ \textcolor{comment}{\ \ \ \ \ \ \ NO-\/SHOW}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00669}00669\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00670}00670\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00671}00671\ \ \ \ \ \textcolor{keywordflow}{if}\ (p-\/>\mbox{\hyperlink{structpatient_ad18cb6117b28280239c45d80384da07f}{willArrive}}\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00672}00672\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00673}00673\ \ \ \ \ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00674}00674\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00675}00675\ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a4664ba0fd23fd269d1c1d99728d41de3}{noShow}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00676}00676\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00677}00677\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n[Patient\ \%d\ |\ \%s]\ NO-\/SHOW.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00678}00678\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00679}00679\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00680}00680\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00681}00681\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00682}00682\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ *\ Release\ confirmed\ appointment\ slot.}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00683}00683\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00684}00684\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p-\/>\mbox{\hyperlink{structpatient_a5e70ddea830bbd84227ff7007bced89d}{appointment}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00685}00685\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00686}00686\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00687}00687\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00688}00688\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00689}00689\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00690}00690\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00691}00691\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Receptionist]\ \%s's\ appointment\ slot\ "{}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00692}00692\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}has\ been\ released.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00693}00693\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00694}00694\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00695}00695\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Receptionist]\ Active\ appointments:\ "{}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00696}00696\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\%d/\%d\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00697}00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{activeAppointments}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00698}00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00699}00699\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00700}00700\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00701}00701\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00702}00702\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00703}00703\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00704}00704\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00705}00705\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00706}00706\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00707}00707\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00708}00708\ \textcolor{comment}{\ \ \ \ \ \ \ ARRIVE\ AT\ CLINIC}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00709}00709\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00710}00710\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00711}00711\ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Arrived\ at\ the\ clinic.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00712}00712\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00713}00713\ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00714}00714\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00715}00715\ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00716}00716\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00717}00717\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00718}00718\ \ \ \ \ \textcolor{comment}{/*\ Check\ doctor\ capacity\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00719}00719\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00720}00720\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}}\ >=\ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}})}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00721}00721\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00722}00722\ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a01cd7312bceb127e900dcfc6d9207b48}{leftDoctorFull}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00723}00723\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00724}00724\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Doctor\ is\ full.\ "{}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00725}00725\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Leaving\ clinic.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00726}00726\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00727}00727\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00728}00728\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00729}00729\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00730}00730\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00731}00731\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00732}00732\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00733}00733\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00734}00734\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00735}00735\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00736}00736\ \textcolor{comment}{\ \ \ \ \ \ \ ENTER\ WAITING\ ROOM}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00737}00737\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00738}00738\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00739}00739\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}\ <\ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}})}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00740}00740\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00741}00741\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07}{arrivalCounter}}++;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00742}00742\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00743}00743\ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a05fd409523bb1e5f1096c62e09494dd4}{arrivalOrder}}\ =\ \mbox{\hyperlink{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07}{arrivalCounter}};}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00744}00744\ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a1bfc38052e92c85c7ff23a8c5c0247d8}{waiting}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00745}00745\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00746}00746\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}}++;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00747}00747\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00748}00748\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Sitting\ in\ waiting\ room.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00749}00749\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00750}00750\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00751}00751\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00752}00752\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Chair\ \%d/\%d\ |\ "{}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00753}00753\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FCFS\ Order\ \#\%d\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00754}00754\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00755}00755\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00756}00756\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00757}00757\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00758}00758\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a05fd409523bb1e5f1096c62e09494dd4}{arrivalOrder}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00759}00759\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00760}00760\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00761}00761\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00762}00762\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Notify\ dentist\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00763}00763\ \ \ \ \ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00764}00764\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00765}00765\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Wait\ until\ dentist\ calls\ this\ patient\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00766}00766\ \ \ \ \ \ \ \ \ sem\_wait(\&p-\/>\mbox{\hyperlink{structpatient_acd73907f32c9d444717b4ce9ff091bee}{dentistCallSem}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00767}00767\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00768}00768\ \ \ \ \ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00769}00769\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00770}00770\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p-\/>\mbox{\hyperlink{structpatient_a01cd7312bceb127e900dcfc6d9207b48}{leftDoctorFull}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00771}00771\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00772}00772\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Sent\ home\ because\ "{}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00773}00773\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}doctor\ is\ full.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00774}00774\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00775}00775\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00776}00776\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00777}00777\ \ \ \ \ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00778}00778\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00779}00779\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00780}00780\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00781}00781\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00782}00782\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00783}00783\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00784}00784\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Entering\ treatment\ room.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00785}00785\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00786}00786\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00787}00787\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00788}00788\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ treatment\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00789}00789\ \ \ \ \ \ \ \ \ sem\_wait(\&p-\/>\mbox{\hyperlink{structpatient_a50d7808aad0ab7dc29db0de30400ecb2}{treatmentDoneSem}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00790}00790\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00791}00791\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Treatment\ completed.\ "{}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00792}00792\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Leaving\ clinic.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00793}00793\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00794}00794\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00795}00795\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00796}00796\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00797}00797\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00798}00798\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00799}00799\ \textcolor{comment}{\ \ \ \ \ \ \ WAITING\ ROOM\ FULL}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00800}00800\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00801}00801\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00802}00802\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00803}00803\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00804}00804\ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a4cd265058bdaac477f8c5f1f11a4d4ab}{leftNoChair}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00805}00805\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00806}00806\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}[Patient\ \%d\ |\ \%s]\ Waiting\ room\ is\ FULL\ "{}}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00807}00807\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}(\%d/\%d).\ Leaving\ clinic.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00808}00808\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00809}00809\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p-\/>\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00810}00810\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waitingPatients}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00811}00811\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00812}00812\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00813}00813\ \ \ \ \ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00814}00814\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00815}00815\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00816}00816\ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00817}00817\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00818}00818\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00819}00819\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00820}00820\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00821}00821\ \textcolor{comment}{\ \ \ PATIENT\ TABLE}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00822}00822\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00823}00823\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00827}\mbox{\hyperlink{dentist_8c_acb24d60c8c787057ced98f1e97eeddda}{00827}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dentist_8c_acb24d60c8c787057ced98f1e97eeddda}{printPatientTable}}()}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00828}00828\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00829}00829\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00830}00830\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00831}00831\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00832}00832\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ ID\ \ |\ Name\ \ \ \ \ \ \ \ \ \ \ \ \ |\ Appointment\ \ \ |\ Result\ \ \ \ \ \ \ \ \ \ \ |\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00833}00833\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00834}00834\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00835}00835\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00836}00836\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00837}00837\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ appointmentText[20];}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00838}00838\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ resultText[30];}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00839}00839\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00840}00840\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a5e70ddea830bbd84227ff7007bced89d}{appointment}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00841}00841\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00842}00842\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(appointmentText,\ \textcolor{stringliteral}{"{}Confirmed"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00843}00843\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00844}00844\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00845}00845\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00846}00846\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(appointmentText,\ \textcolor{stringliteral}{"{}Not\ confirmed"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00847}00847\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00848}00848\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00849}00849\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a48a2d8f61a364534ba4d49d3b614a899}{treated}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00850}00850\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00851}00851\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(resultText,\ \textcolor{stringliteral}{"{}Treated"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00852}00852\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00853}00853\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a4664ba0fd23fd269d1c1d99728d41de3}{noShow}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00854}00854\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00855}00855\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(resultText,\ \textcolor{stringliteral}{"{}No-\/show"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00856}00856\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00857}00857\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a4cd265058bdaac477f8c5f1f11a4d4ab}{leftNoChair}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00858}00858\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00859}00859\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(resultText,\ \textcolor{stringliteral}{"{}Room\ full"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00860}00860\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00861}00861\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a01cd7312bceb127e900dcfc6d9207b48}{leftDoctorFull}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00862}00862\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00863}00863\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(resultText,\ \textcolor{stringliteral}{"{}Doctor\ full"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00864}00864\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00865}00865\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00866}00866\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00867}00867\ \ \ \ \ \ \ \ \ \ \ \ \ strcpy(resultText,\ \textcolor{stringliteral}{"{}Left"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00868}00868\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00869}00869\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00870}00870\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ \%-\/3d\ |\ \%-\/16s\ |\ \%-\/13s\ |\ \%-\/16s\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00871}00871\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\textcolor{keywordtype}{id},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00872}00872\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00873}00873\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ appointmentText,}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00874}00874\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resultText);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00875}00875\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00876}00876\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00877}00877\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00878}00878\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00879}00879\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00880}00880\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00881}00881\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00882}00882\ \textcolor{comment}{\ \ \ STATISTICS}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00883}00883\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00884}00884\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00888}\mbox{\hyperlink{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e}{00888}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e}{printStatistics}}()}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00889}00889\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00890}00890\ \ \ \ \ \textcolor{keywordtype}{int}\ noShowCount\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00891}00891\ \ \ \ \ \textcolor{keywordtype}{int}\ roomFullCount\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00892}00892\ \ \ \ \ \textcolor{keywordtype}{int}\ doctorFullCount\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00893}00893\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00894}00894\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00895}00895\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00896}00896\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a4664ba0fd23fd269d1c1d99728d41de3}{noShow}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00897}00897\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00898}00898\ \ \ \ \ \ \ \ \ \ \ \ \ noShowCount++;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00899}00899\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00900}00900\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00901}00901\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a4cd265058bdaac477f8c5f1f11a4d4ab}{leftNoChair}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00902}00902\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00903}00903\ \ \ \ \ \ \ \ \ \ \ \ \ roomFullCount++;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00904}00904\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00905}00905\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00906}00906\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a01cd7312bceb127e900dcfc6d9207b48}{leftDoctorFull}}\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00907}00907\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00908}00908\ \ \ \ \ \ \ \ \ \ \ \ \ doctorFullCount++;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00909}00909\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00910}00910\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00911}00911\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00912}00912\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00913}00913\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00914}00914\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00915}00915\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ STATISTICS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00916}00916\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00917}00917\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00918}00918\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Total\ patients\ \ \ \ \ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00919}00919\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00920}00920\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00921}00921\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Confirmed\ appointments:\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00922}00922\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58}{confirmedAppointments}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00923}00923\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00924}00924\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Patients\ treated\ \ \ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00925}00925\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treatedPatients}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00926}00926\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00927}00927\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ No-\/show\ patients\ \ \ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00928}00928\ \ \ \ \ \ \ \ \ \ \ \ noShowCount);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00929}00929\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00930}00930\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Room-\/full\ patients\ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00931}00931\ \ \ \ \ \ \ \ \ \ \ \ roomFullCount);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00932}00932\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00933}00933\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Doctor-\/full\ patients\ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00934}00934\ \ \ \ \ \ \ \ \ \ \ \ doctorFullCount);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00935}00935\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00936}00936\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Waiting\ room\ chairs\ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00937}00937\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00938}00938\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00939}00939\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Doctor\ capacity\ \ \ \ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00940}00940\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00941}00941\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00942}00942\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Appointment\ slots\ \ \ \ \ :\ \%-\/16d\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00943}00943\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00944}00944\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00945}00945\ \ \ \ \ printf(\textcolor{stringliteral}{"{}|\ Scheduling\ \ \ \ \ \ \ \ \ \ \ \ :\ \%-\/16s\ |\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00946}00946\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FIFO\ /\ FCFS"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00947}00947\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00948}00948\ \ \ \ \ printf(\textcolor{stringliteral}{"{}+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/+\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00949}00949\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00950}00950\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00951}00951\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00952}00952\ \textcolor{comment}{/*\ ============================================================}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00953}00953\ \textcolor{comment}{\ \ \ MAIN\ FUNCTION}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00954}00954\ \textcolor{comment}{\ \ \ ============================================================\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00955}00955\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00965}\mbox{\hyperlink{dentist_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{00965}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dentist_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00966}00966\ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00967}00967\ \ \ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00968}00968\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00969}00969\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00970}00970\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00971}00971\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ DENTIST\ CLINIC\ SIMULATION\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00972}00972\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OS\ PROJECT\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00973}00973\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00974}00974\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00975}00975\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00976}00976\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00977}00977\ \textcolor{comment}{\ \ \ \ \ \ \ SHOW\ PROJECT\ INFORMATION}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00978}00978\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00979}00979\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00980}00980\ \ \ \ \ \mbox{\hyperlink{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f}{showProjectInfo}}();}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00981}00981\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00982}00982\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00983}00983\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00984}00984\ \textcolor{comment}{\ \ \ \ \ \ \ USER\ INPUT}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00985}00985\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00986}00986\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00987}00987\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)nEnter\ number\ of\ patients:\ "{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00988}00988\ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%d"{}},\ \&\mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00989}00989\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00990}00990\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}}\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00991}00991\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00992}00992\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Invalid\ number\ of\ patients.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00993}00993\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00994}00994\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00995}00995\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00996}00996\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00997}00997\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Enter\ number\ of\ waiting\ room\ chairs:\ "{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00998}00998\ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%d"{}},\ \&\mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l00999}00999\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01000}01000\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}}\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01001}01001\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01002}01002\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Invalid\ number\ of\ chairs.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01003}01003\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01004}01004\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01005}01005\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01006}01006\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01007}01007\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Enter\ doctor's\ maximum\ capacity:\ "{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01008}01008\ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%d"{}},\ \&\mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01009}01009\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01010}01010\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}}\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01011}01011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01012}01012\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Invalid\ doctor\ capacity.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01013}01013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01014}01014\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01015}01015\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01016}01016\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01017}01017\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Enter\ number\ of\ appointment\ slots:\ "{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01018}01018\ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%d"{}},\ \&\mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01019}01019\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01020}01020\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}}\ <=\ 0\ ||}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01021}01021\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}}\ >\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}})}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01022}01022\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01023}01023\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Invalid\ appointment\ slot\ number.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01024}01024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01025}01025\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01026}01026\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01027}01027\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01028}01028\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01029}01029\ \textcolor{comment}{\ \ \ \ \ \ \ MEMORY\ ALLOCATION}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01030}01030\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01031}01031\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01032}01032\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}\ =}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01033}01033\ \ \ \ \ \ \ \ \ malloc(\mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}}\ *\ \textcolor{keyword}{sizeof}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structpatient}{patient}}));}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01034}01034\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01035}01035\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}}\ =}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01036}01036\ \ \ \ \ \ \ \ \ malloc(\mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}}\ *\ \textcolor{keyword}{sizeof}(pthread\_t));}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01037}01037\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01038}01038\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}\ ==\ NULL\ ||}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01039}01039\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}}\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01040}01040\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01041}01041\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Memory\ allocation\ failed.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01042}01042\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01043}01043\ \ \ \ \ \ \ \ \ free(\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01044}01044\ \ \ \ \ \ \ \ \ free(\mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01045}01045\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01046}01046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01047}01047\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01048}01048\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01049}01049\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01050}01050\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01051}01051\ \textcolor{comment}{\ \ \ \ \ \ \ PATIENT\ INPUT}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01052}01052\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01053}01053\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01054}01054\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01055}01055\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Enter\ patient\ information\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01056}01056\ \ \ \ \ printf(\textcolor{stringliteral}{"{}1\ =\ Patient\ will\ come\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01057}01057\ \ \ \ \ printf(\textcolor{stringliteral}{"{}0\ =\ Patient\ will\ not\ come\ (No-\/show)\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01058}01058\ \ \ \ \ printf(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01059}01059\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01060}01060\ \ \ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01061}01061\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01062}01062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a8055ad91129e9a86149941ee2edd6672}{initializePatient}}(i);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01063}01063\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01064}01064\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)nPatient\ \%d\ name:\ "{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01065}01065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ +\ 1);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01066}01066\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01067}01067\ \ \ \ \ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%63s"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01068}01068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01069}01069\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01070}01070\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Will\ \%s\ come?\ (1=Yes,\ 0=No):\ "{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01071}01071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01072}01072\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01073}01073\ \ \ \ \ \ \ \ \ scanf(\textcolor{stringliteral}{"{}\%d"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01074}01074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i].\mbox{\hyperlink{structpatient_ad18cb6117b28280239c45d80384da07f}{willArrive}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01075}01075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01076}01076\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01077}01077\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01078}01078\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01079}01079\ \textcolor{comment}{\ \ \ \ \ \ \ CLINIC\ SETTINGS}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01080}01080\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01081}01081\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01082}01082\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01083}01083\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CLINIC\ SETTINGS\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01084}01084\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01085}01085\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01086}01086\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Total\ patients\ \ \ \ \ \ :\ \%d\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01087}01087\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01088}01088\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01089}01089\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Waiting\ room\ chairs\ :\ \%d\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01090}01090\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waitingRoomChairs}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01091}01091\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01092}01092\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Doctor\ capacity\ \ \ \ \ :\ \%d\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01093}01093\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctorCapacity}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01094}01094\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01095}01095\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Appointment\ slots\ \ \ :\ \%d\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01096}01096\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointmentSlots}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01097}01097\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01098}01098\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Scheduling\ \ \ \ \ \ \ \ \ \ :\ FIFO\ /\ FCFS\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01099}01099\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01100}01100\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01101}01101\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01102}01102\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01103}01103\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01104}01104\ \textcolor{comment}{\ \ \ \ \ \ \ INITIALIZE\ SYNCHRONIZATION}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01105}01105\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01106}01106\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01107}01107\ \ \ \ \ pthread\_mutex\_init(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}},\ NULL);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01108}01108\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01109}01109\ \ \ \ \ sem\_init(\&\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}},\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01110}01110\ \ \ \ \ sem\_init(\&\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}},\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01111}01111\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01112}01112\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01113}01113\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01114}01114\ \textcolor{comment}{\ \ \ \ \ \ \ CREATE\ DENTIST\ THREAD}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01115}01115\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01116}01116\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01117}01117\ \ \ \ \ pthread\_t\ dentistThread;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01118}01118\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01119}01119\ \ \ \ \ pthread\_create(\&dentistThread,}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01120}01120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL,}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01121}01121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_ad760421f42ea6d16830513d6ba7a0440}{dentist}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01122}01122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01123}01123\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01124}01124\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01125}01125\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01126}01126\ \textcolor{comment}{\ \ \ \ \ \ \ CREATE\ RECEPTIONIST\ THREAD}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01127}01127\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01128}01128\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01129}01129\ \ \ \ \ pthread\_t\ receptionistThread;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01130}01130\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01131}01131\ \ \ \ \ pthread\_create(\&receptionistThread,}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01132}01132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL,}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01133}01133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1}{receptionist}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01134}01134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01135}01135\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01136}01136\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01137}01137\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01138}01138\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SIMULATION\ STARTED\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01139}01139\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01140}01140\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01141}01141\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01142}01142\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01143}01143\ \textcolor{comment}{\ \ \ \ \ \ \ CREATE\ PATIENT\ THREADS}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01144}01144\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01145}01145\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01146}01146\ \ \ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01147}01147\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01148}01148\ \ \ \ \ \ \ \ \ pthread\_create(\&\mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}}[i],}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01149}01149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL,}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01150}01150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpatient}{patient}},}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01151}01151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}}[i]);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01152}01152\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01153}01153\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01154}01154\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ *\ Small\ delay\ between\ patient\ arrivals.}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01155}01155\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01156}01156\ \ \ \ \ \ \ \ \ usleep(300000);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01157}01157\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01158}01158\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01159}01159\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01160}01160\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01161}01161\ \textcolor{comment}{\ \ \ \ \ \ \ WAIT\ FOR\ PATIENT\ THREADS}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01162}01162\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01163}01163\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01164}01164\ \ \ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01165}01165\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01166}01166\ \ \ \ \ \ \ \ \ pthread\_join(\mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}}[i],}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01167}01167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01168}01168\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01169}01169\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01170}01170\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01171}01171\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01172}01172\ \textcolor{comment}{\ \ \ \ \ \ \ CLOSE\ CLINIC}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01173}01173\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01174}01174\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01175}01175\ \ \ \ \ pthread\_mutex\_lock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01176}01176\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01177}01177\ \ \ \ \ \mbox{\hyperlink{dentist_8c_adf0438cfffc0798bbb393d7189808846}{clinicClosed}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01178}01178\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01179}01179\ \ \ \ \ pthread\_mutex\_unlock(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01180}01180\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01181}01181\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01182}01182\ \ \ \ \ \textcolor{comment}{/*\ Wake\ dentist\ and\ receptionist\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01183}01183\ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01184}01184\ \ \ \ \ sem\_post(\&\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01185}01185\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01186}01186\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01187}01187\ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ dentist\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01188}01188\ \ \ \ \ pthread\_join(dentistThread,}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01189}01189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01190}01190\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01191}01191\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01192}01192\ \ \ \ \ \textcolor{comment}{/*\ Wait\ for\ receptionist\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01193}01193\ \ \ \ \ pthread\_join(receptionistThread,}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01194}01194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NULL);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01195}01195\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01196}01196\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01197}01197\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01198}01198\ \textcolor{comment}{\ \ \ \ \ \ \ FINAL\ RESULT}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01199}01199\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01200}01200\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01201}01201\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01202}01202\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CLINIC\ CLOSED\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01203}01203\ \ \ \ \ printf(\textcolor{stringliteral}{"{}============================================================\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01204}01204\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01205}01205\ \ \ \ \ \mbox{\hyperlink{dentist_8c_acb24d60c8c787057ced98f1e97eeddda}{printPatientTable}}();}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01206}01206\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01207}01207\ \ \ \ \ \mbox{\hyperlink{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e}{printStatistics}}();}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01208}01208\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01209}01209\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01210}01210\ \ \ \ \ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01211}01211\ \textcolor{comment}{\ \ \ \ \ \ \ CLEANUP}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01212}01212\ \textcolor{comment}{\ \ \ \ \ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01213}01213\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01214}01214\ \ \ \ \ pthread\_mutex\_destroy(\&\mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01215}01215\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01216}01216\ \ \ \ \ sem\_destroy(\&\mbox{\hyperlink{dentist_8c_a4a5bacaa502f4925373193829cefd232}{requestReady}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01217}01217\ \ \ \ \ sem\_destroy(\&\mbox{\hyperlink{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}{patientReady}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01218}01218\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01219}01219\ \ \ \ \ \textcolor{keywordflow}{for}\ (i\ =\ 0;\ i\ <\ \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{totalPatients}};\ i++)}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01220}01220\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01221}01221\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dentist_8c_ad3424ae12395de9db164ab12c1439f3d}{destroyPatient}}(i);}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01222}01222\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01223}01223\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01224}01224\ \ \ \ \ free(\mbox{\hyperlink{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}{patients}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01225}01225\ \ \ \ \ free(\mbox{\hyperlink{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}{patientThreads}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01226}01226\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01227}01227\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)nAll\ threads\ terminated\ successfully.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01228}01228\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Program\ finished.\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01229}01229\ }
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01230}01230\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01231}01231\ \}}
+\DoxyCodeLine{\Hypertarget{dentist_8c_source_l01232}01232\ }
+
+\end{DoxyCode}

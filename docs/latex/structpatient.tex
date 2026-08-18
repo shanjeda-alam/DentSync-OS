@@ -1,0 +1,197 @@
+\doxysection{patient Struct Reference}
+\hypertarget{structpatient}{}\label{structpatient}\index{patient@{patient}}
+
+
+Stores all information about a patient.  
+
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{structpatient_a6bc1be657513781a65eb4873b72708c0}{id}}
+\item 
+char \mbox{\hyperlink{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}{name}} \mbox{[}64\mbox{]}
+\item 
+int \mbox{\hyperlink{structpatient_a5e70ddea830bbd84227ff7007bced89d}{appointment}}
+\item 
+int \mbox{\hyperlink{structpatient_ad18cb6117b28280239c45d80384da07f}{will\+Arrive}}
+\item 
+int \mbox{\hyperlink{structpatient_a05fd409523bb1e5f1096c62e09494dd4}{arrival\+Order}}
+\item 
+int \mbox{\hyperlink{structpatient_a1bfc38052e92c85c7ff23a8c5c0247d8}{waiting}}
+\item 
+int \mbox{\hyperlink{structpatient_a48a2d8f61a364534ba4d49d3b614a899}{treated}}
+\item 
+int \mbox{\hyperlink{structpatient_a4664ba0fd23fd269d1c1d99728d41de3}{no\+Show}}
+\item 
+int \mbox{\hyperlink{structpatient_a4cd265058bdaac477f8c5f1f11a4d4ab}{left\+No\+Chair}}
+\item 
+int \mbox{\hyperlink{structpatient_a01cd7312bceb127e900dcfc6d9207b48}{left\+Doctor\+Full}}
+\item 
+int \mbox{\hyperlink{structpatient_af39e6f8fef51843e6166eb1c4fe01f3f}{request\+Pending}}
+\item 
+sem\+\_\+t \mbox{\hyperlink{structpatient_adc081f0db61cb5eecb92d05be47ecd43}{reply\+Sem}}
+\item 
+sem\+\_\+t \mbox{\hyperlink{structpatient_acd73907f32c9d444717b4ce9ff091bee}{dentist\+Call\+Sem}}
+\item 
+sem\+\_\+t \mbox{\hyperlink{structpatient_a50d7808aad0ab7dc29db0de30400ecb2}{treatment\+Done\+Sem}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Stores all information about a patient. 
+
+This structure stores appointment information, waiting room information, treatment status and private semaphores. 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00064}{64}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+
+\label{doc-variable-members}
+\Hypertarget{structpatient_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpatient_a5e70ddea830bbd84227ff7007bced89d}\index{patient@{patient}!appointment@{appointment}}
+\index{appointment@{appointment}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{appointment}{appointment}}
+{\footnotesize\ttfamily \label{structpatient_a5e70ddea830bbd84227ff7007bced89d} 
+int patient\+::appointment}
+
+1 = confirmed, 0 = not confirmed 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00069}{69}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_a05fd409523bb1e5f1096c62e09494dd4}\index{patient@{patient}!arrivalOrder@{arrivalOrder}}
+\index{arrivalOrder@{arrivalOrder}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{arrivalOrder}{arrivalOrder}}
+{\footnotesize\ttfamily \label{structpatient_a05fd409523bb1e5f1096c62e09494dd4} 
+int patient\+::arrival\+Order}
+
+FIFO / FCFS arrival order 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00072}{72}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_acd73907f32c9d444717b4ce9ff091bee}\index{patient@{patient}!dentistCallSem@{dentistCallSem}}
+\index{dentistCallSem@{dentistCallSem}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{dentistCallSem}{dentistCallSem}}
+{\footnotesize\ttfamily \label{structpatient_acd73907f32c9d444717b4ce9ff091bee} 
+sem\+\_\+t patient\+::dentist\+Call\+Sem}
+
+Dentist call semaphore 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00083}{83}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_a6bc1be657513781a65eb4873b72708c0}\index{patient@{patient}!id@{id}}
+\index{id@{id}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily \label{structpatient_a6bc1be657513781a65eb4873b72708c0} 
+int patient\+::id}
+
+Patient ID 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00066}{66}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_a01cd7312bceb127e900dcfc6d9207b48}\index{patient@{patient}!leftDoctorFull@{leftDoctorFull}}
+\index{leftDoctorFull@{leftDoctorFull}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{leftDoctorFull}{leftDoctorFull}}
+{\footnotesize\ttfamily \label{structpatient_a01cd7312bceb127e900dcfc6d9207b48} 
+int patient\+::left\+Doctor\+Full}
+
+1 = left because doctor was full 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00078}{78}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_a4cd265058bdaac477f8c5f1f11a4d4ab}\index{patient@{patient}!leftNoChair@{leftNoChair}}
+\index{leftNoChair@{leftNoChair}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{leftNoChair}{leftNoChair}}
+{\footnotesize\ttfamily \label{structpatient_a4cd265058bdaac477f8c5f1f11a4d4ab} 
+int patient\+::left\+No\+Chair}
+
+1 = left because room was full 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00077}{77}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_a3527f4233b03dbe484d07c84e6d26ecc}\index{patient@{patient}!name@{name}}
+\index{name@{name}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily \label{structpatient_a3527f4233b03dbe484d07c84e6d26ecc} 
+char patient\+::name\mbox{[}64\mbox{]}}
+
+Patient name 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00067}{67}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_a4664ba0fd23fd269d1c1d99728d41de3}\index{patient@{patient}!noShow@{noShow}}
+\index{noShow@{noShow}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{noShow}{noShow}}
+{\footnotesize\ttfamily \label{structpatient_a4664ba0fd23fd269d1c1d99728d41de3} 
+int patient\+::no\+Show}
+
+1 = no-\/show 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00076}{76}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_adc081f0db61cb5eecb92d05be47ecd43}\index{patient@{patient}!replySem@{replySem}}
+\index{replySem@{replySem}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{replySem}{replySem}}
+{\footnotesize\ttfamily \label{structpatient_adc081f0db61cb5eecb92d05be47ecd43} 
+sem\+\_\+t patient\+::reply\+Sem}
+
+Receptionist reply semaphore 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00082}{82}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_af39e6f8fef51843e6166eb1c4fe01f3f}\index{patient@{patient}!requestPending@{requestPending}}
+\index{requestPending@{requestPending}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{requestPending}{requestPending}}
+{\footnotesize\ttfamily \label{structpatient_af39e6f8fef51843e6166eb1c4fe01f3f} 
+int patient\+::request\+Pending}
+
+1 = appointment request pending 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00080}{80}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_a48a2d8f61a364534ba4d49d3b614a899}\index{patient@{patient}!treated@{treated}}
+\index{treated@{treated}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{treated}{treated}}
+{\footnotesize\ttfamily \label{structpatient_a48a2d8f61a364534ba4d49d3b614a899} 
+int patient\+::treated}
+
+1 = treated 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00075}{75}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_a50d7808aad0ab7dc29db0de30400ecb2}\index{patient@{patient}!treatmentDoneSem@{treatmentDoneSem}}
+\index{treatmentDoneSem@{treatmentDoneSem}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{treatmentDoneSem}{treatmentDoneSem}}
+{\footnotesize\ttfamily \label{structpatient_a50d7808aad0ab7dc29db0de30400ecb2} 
+sem\+\_\+t patient\+::treatment\+Done\+Sem}
+
+Treatment completion semaphore 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00084}{84}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_a1bfc38052e92c85c7ff23a8c5c0247d8}\index{patient@{patient}!waiting@{waiting}}
+\index{waiting@{waiting}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{waiting}{waiting}}
+{\footnotesize\ttfamily \label{structpatient_a1bfc38052e92c85c7ff23a8c5c0247d8} 
+int patient\+::waiting}
+
+1 = waiting, 0 = not waiting 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00073}{73}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+\Hypertarget{structpatient_ad18cb6117b28280239c45d80384da07f}\index{patient@{patient}!willArrive@{willArrive}}
+\index{willArrive@{willArrive}!patient@{patient}}
+\doxysubsubsection{\texorpdfstring{willArrive}{willArrive}}
+{\footnotesize\ttfamily \label{structpatient_ad18cb6117b28280239c45d80384da07f} 
+int patient\+::will\+Arrive}
+
+1 = will arrive, 0 = no-\/show 
+
+Definition at line \mbox{\hyperlink{dentist_8c_source_l00070}{70}} of file \mbox{\hyperlink{dentist_8c_source}{dentist.\+c}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{dentist_8c}{dentist.\+c}}\end{DoxyCompactItemize}
