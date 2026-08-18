@@ -1,2 +1,0 @@
-# DentSync-OS
-# DentSync-OS

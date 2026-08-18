@@ -12,3 +12,430 @@ Dentist Clinic Simulation -\/ Operating System Project.
 {\ttfamily \#include $<$semaphore.\+h$>$}\newline
 {\ttfamily \#include $<$unistd.\+h$>$}\newline
 Include dependency graph for dentist.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dentist_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpatient}{patient}}
+\begin{DoxyCompactList}\small\item\em Stores all information about a patient. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{dentist_8c_a8055ad91129e9a86149941ee2edd6672}{initialize\+Patient}} (int i)
+\begin{DoxyCompactList}\small\item\em Initializes a patient structure. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{dentist_8c_ad3424ae12395de9db164ab12c1439f3d}{destroy\+Patient}} (int i)
+\begin{DoxyCompactList}\small\item\em Destroys all semaphores of a patient. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368}{find\+Next\+Patient}} ()
+\begin{DoxyCompactList}\small\item\em Finds the next patient using FIFO / FCFS. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0}{find\+Next\+Request}} ()
+\begin{DoxyCompactList}\small\item\em Finds the next appointment request. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1}{receptionist}} (void \texorpdfstring{$\ast$}{*}arg)
+\begin{DoxyCompactList}\small\item\em Receptionist thread function. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dentist_8c_ad760421f42ea6d16830513d6ba7a0440}{dentist}} (void \texorpdfstring{$\ast$}{*}arg)
+\begin{DoxyCompactList}\small\item\em Dentist thread function. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{dentist_8c_a4452e89b8dc95607d60d69487673f2de}{patient}} (void \texorpdfstring{$\ast$}{*}arg)
+\begin{DoxyCompactList}\small\item\em Patient thread function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{dentist_8c_acb24d60c8c787057ced98f1e97eeddda}{print\+Patient\+Table}} ()
+\begin{DoxyCompactList}\small\item\em Displays the final patient table. \end{DoxyCompactList}\item 
+\Hypertarget{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e}\label{dentist_8c_a08cfbea6d24819e4e6b063144a5e6b5e} 
+void {\bfseries print\+Statistics} ()
+\begin{DoxyCompactList}\small\item\em Displays final clinic statistics. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f}{show\+Project\+Info}} ()
+\begin{DoxyCompactList}\small\item\em Displays the contents of project\+\_\+info.\+txt. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{dentist_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Main entry point of the program. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}{total\+Patients}}
+\item 
+int \mbox{\hyperlink{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}{waiting\+Room\+Chairs}}
+\item 
+int \mbox{\hyperlink{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}{doctor\+Capacity}}
+\item 
+int \mbox{\hyperlink{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}{appointment\+Slots}}
+\item 
+int \mbox{\hyperlink{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}{waiting\+Patients}} = 0
+\item 
+int \mbox{\hyperlink{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}{treated\+Patients}} = 0
+\item 
+int \mbox{\hyperlink{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58}{confirmed\+Appointments}} = 0
+\item 
+int \mbox{\hyperlink{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}{active\+Appointments}} = 0
+\item 
+int \mbox{\hyperlink{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07}{arrival\+Counter}} = 0
+\item 
+int \mbox{\hyperlink{dentist_8c_adf0438cfffc0798bbb393d7189808846}{clinic\+Closed}} = 0
+\item 
+\Hypertarget{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb}\label{dentist_8c_a5526251b462e082fe5bd6d59a19bdbdb} 
+struct \mbox{\hyperlink{structpatient}{patient}} \texorpdfstring{$\ast$}{*} {\bfseries patients}
+\begin{DoxyCompactList}\small\item\em Pointer to dynamically allocated patient array. \end{DoxyCompactList}\item 
+\Hypertarget{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3}\label{dentist_8c_a71986fe7bc373ddfbea48d4e455f65e3} 
+pthread\+\_\+t \texorpdfstring{$\ast$}{*} {\bfseries patient\+Threads}
+\begin{DoxyCompactList}\small\item\em Pointer to dynamically allocated patient thread array. \end{DoxyCompactList}\item 
+pthread\+\_\+mutex\+\_\+t \mbox{\hyperlink{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}{mutex}}
+\begin{DoxyCompactList}\small\item\em Mutex used to protect shared data. \end{DoxyCompactList}\item 
+\Hypertarget{dentist_8c_a4a5bacaa502f4925373193829cefd232}\label{dentist_8c_a4a5bacaa502f4925373193829cefd232} 
+sem\+\_\+t {\bfseries request\+Ready}
+\begin{DoxyCompactList}\small\item\em Semaphore used to notify the receptionist when a patient requests an appointment. \end{DoxyCompactList}\item 
+\Hypertarget{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360}\label{dentist_8c_a06b0b410ddd1bdb2f603b9bbee609360} 
+sem\+\_\+t {\bfseries patient\+Ready}
+\begin{DoxyCompactList}\small\item\em Semaphore used to notify the dentist when a patient enters the waiting room. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Dentist Clinic Simulation -\/ Operating System Project. 
+
+\begin{DoxyAuthor}{Author}
+shanjeda alam 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2026
+\end{DoxyDate}
+This program simulates a dentist clinic using different Operating System concepts.
+
+Main OS Concepts\+:
+\begin{DoxyEnumerate}
+\item POSIX Threads
+\item Mutex
+\item Semaphores
+\item FIFO / FCFS Scheduling
+\item Critical Section
+\item Synchronization
+\item Structure
+\item Pointer
+\item Dynamic Memory Allocation
+\end{DoxyEnumerate}
+
+Main Features\+:
+\begin{DoxyItemize}
+\item Patient management
+\item Appointment management
+\item Waiting room management
+\item Doctor treatment management
+\item No-\/show patient handling
+\item FIFO / FCFS scheduling
+\item Thread synchronization
+\item Mutex protected critical sections
+\item Semaphore based communication
+\end{DoxyItemize}
+
+User Input\+:
+\begin{DoxyItemize}
+\item Number of patients
+\item Number of waiting room chairs
+\item Doctor capacity
+\item Number of appointment slots
+\item Patient names
+\item Patient arrival / no-\/show status
+\end{DoxyItemize}
+
+Special Rule\+: If a confirmed appointment patient becomes a no-\/show, the appointment slot is released and another waiting patient can receive treatment. 
+
+\label{doc-func-members}
+\Hypertarget{dentist_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{dentist_8c_ad760421f42ea6d16830513d6ba7a0440}\index{dentist.c@{dentist.c}!dentist@{dentist}}
+\index{dentist@{dentist}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{dentist()}{dentist()}}
+{\footnotesize\ttfamily \label{dentist_8c_ad760421f42ea6d16830513d6ba7a0440} 
+void \texorpdfstring{$\ast$}{*} dentist (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
+
+
+
+Dentist thread function. 
+
+Dentist thread.
+
+Selects patients using FIFO / FCFS and treats them.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Thread argument. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when the thread finishes.
+\end{DoxyReturn}
+The dentist selects waiting patients according to FIFO/\+FCFS. Each patient receives treatment for a simulated period.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Thread argument. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when dentist exits. 
+\end{DoxyReturn}
+\Hypertarget{dentist_8c_ad3424ae12395de9db164ab12c1439f3d}\index{dentist.c@{dentist.c}!destroyPatient@{destroyPatient}}
+\index{destroyPatient@{destroyPatient}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{destroyPatient()}{destroyPatient()}}
+{\footnotesize\ttfamily \label{dentist_8c_ad3424ae12395de9db164ab12c1439f3d} 
+void destroy\+Patient (\begin{DoxyParamCaption}\item[{int}]{i}{}\end{DoxyParamCaption})}
+
+
+
+Destroys all semaphores of a patient. 
+
+Destroys patient semaphores.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index of the patient. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368}\index{dentist.c@{dentist.c}!findNextPatient@{findNextPatient}}
+\index{findNextPatient@{findNextPatient}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{findNextPatient()}{findNextPatient()}}
+{\footnotesize\ttfamily \label{dentist_8c_a0e0cd2ec9425e70982f6be99b5f45368} 
+int find\+Next\+Patient (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Finds the next patient using FIFO / FCFS. 
+
+Finds the next waiting patient using FIFO / FCFS.
+
+\begin{DoxyReturn}{Returns}
+Patient index if available, otherwise -\/1.
+\end{DoxyReturn}
+The patient with the smallest arrival order is selected.
+
+\begin{DoxyReturn}{Returns}
+Patient index or -\/1 if no patient is waiting. 
+\end{DoxyReturn}
+\Hypertarget{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0}\index{dentist.c@{dentist.c}!findNextRequest@{findNextRequest}}
+\index{findNextRequest@{findNextRequest}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{findNextRequest()}{findNextRequest()}}
+{\footnotesize\ttfamily \label{dentist_8c_a9107c0faa2951f5e40f4a04753087ba0} 
+int find\+Next\+Request (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Finds the next appointment request. 
+
+Finds the next patient requesting an appointment.
+
+\begin{DoxyReturn}{Returns}
+Patient index if request exists, otherwise -\/1.
+
+Patient index or -\/1 if no request exists. 
+\end{DoxyReturn}
+\Hypertarget{dentist_8c_a8055ad91129e9a86149941ee2edd6672}\index{dentist.c@{dentist.c}!initializePatient@{initializePatient}}
+\index{initializePatient@{initializePatient}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{initializePatient()}{initializePatient()}}
+{\footnotesize\ttfamily \label{dentist_8c_a8055ad91129e9a86149941ee2edd6672} 
+void initialize\+Patient (\begin{DoxyParamCaption}\item[{int}]{i}{}\end{DoxyParamCaption})}
+
+
+
+Initializes a patient structure. 
+
+Initializes one patient.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index of the patient.\\
+\hline
+\end{DoxyParams}
+All patient status values are set to their default values. Private semaphores are also initialized here.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Index of the patient in the patient array. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{dentist_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{dentist.c@{dentist.c}!main@{main}}
+\index{main@{main}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{dentist_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Main entry point of the program. 
+
+Takes clinic settings and patient information from the user, initializes threads, mutexes and semaphores, starts the simulation and finally cleans up all resources.
+
+\begin{DoxyReturn}{Returns}
+0 if the program finishes successfully. 
+\end{DoxyReturn}
+\Hypertarget{dentist_8c_a4452e89b8dc95607d60d69487673f2de}\index{dentist.c@{dentist.c}!patient@{patient}}
+\index{patient@{patient}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{patient()}{patient()}}
+{\footnotesize\ttfamily \label{dentist_8c_a4452e89b8dc95607d60d69487673f2de} 
+void \texorpdfstring{$\ast$}{*} patient (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
+
+
+
+Patient thread function. 
+
+Patient thread.
+
+Handles appointment request, arrival, waiting room, no-\/show and treatment.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Pointer to a patient structure. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when the thread finishes.
+\end{DoxyReturn}
+Handles\+:
+\begin{DoxyItemize}
+\item Appointment request
+\item Appointment confirmation
+\item No-\/show
+\item Waiting room entry
+\item FIFO order
+\item Treatment
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Pointer to struct patient. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when patient thread finishes. 
+\end{DoxyReturn}
+\Hypertarget{dentist_8c_acb24d60c8c787057ced98f1e97eeddda}\index{dentist.c@{dentist.c}!printPatientTable@{printPatientTable}}
+\index{printPatientTable@{printPatientTable}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{printPatientTable()}{printPatientTable()}}
+{\footnotesize\ttfamily \label{dentist_8c_acb24d60c8c787057ced98f1e97eeddda} 
+void print\+Patient\+Table (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Displays the final patient table. 
+
+Displays final results of all patients. \Hypertarget{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1}\index{dentist.c@{dentist.c}!receptionist@{receptionist}}
+\index{receptionist@{receptionist}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{receptionist()}{receptionist()}}
+{\footnotesize\ttfamily \label{dentist_8c_aee9f8d47c95567ef2b220831cbad61a1} 
+void \texorpdfstring{$\ast$}{*} receptionist (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{arg}{}\end{DoxyParamCaption})}
+
+
+
+Receptionist thread function. 
+
+Receptionist thread.
+
+Handles appointment requests from patients.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Thread argument. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when the thread finishes.
+\end{DoxyReturn}
+The receptionist waits for appointment requests and assigns available appointment slots.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Thread argument. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL when receptionist exits. 
+\end{DoxyReturn}
+\Hypertarget{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f}\index{dentist.c@{dentist.c}!showProjectInfo@{showProjectInfo}}
+\index{showProjectInfo@{showProjectInfo}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{showProjectInfo()}{showProjectInfo()}}
+{\footnotesize\ttfamily \label{dentist_8c_af3e3db5206979e146fdf1ec6f984c36f} 
+void show\+Project\+Info (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Displays the contents of project\+\_\+info.\+txt. 
+
+Reads and displays project\+\_\+info.\+txt.
+
+This function connects the external text documentation file with the C program. 
+
+\label{doc-var-members}
+\Hypertarget{dentist_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22}\index{dentist.c@{dentist.c}!activeAppointments@{activeAppointments}}
+\index{activeAppointments@{activeAppointments}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{activeAppointments}{activeAppointments}}
+{\footnotesize\ttfamily \label{dentist_8c_a6c7dd15dd625150f93633fc4b8328d22} 
+int active\+Appointments = 0}
+
+Currently active appointment slots. \Hypertarget{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c}\index{dentist.c@{dentist.c}!appointmentSlots@{appointmentSlots}}
+\index{appointmentSlots@{appointmentSlots}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{appointmentSlots}{appointmentSlots}}
+{\footnotesize\ttfamily \label{dentist_8c_a9dfaa85d0270a550a5ad8e073cba026c} 
+int appointment\+Slots}
+
+Number of available appointment slots. \Hypertarget{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07}\index{dentist.c@{dentist.c}!arrivalCounter@{arrivalCounter}}
+\index{arrivalCounter@{arrivalCounter}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{arrivalCounter}{arrivalCounter}}
+{\footnotesize\ttfamily \label{dentist_8c_aaefdcbfa109a7940b7a5a959c087bc07} 
+int arrival\+Counter = 0}
+
+Counter used for FIFO / FCFS order. \Hypertarget{dentist_8c_adf0438cfffc0798bbb393d7189808846}\index{dentist.c@{dentist.c}!clinicClosed@{clinicClosed}}
+\index{clinicClosed@{clinicClosed}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{clinicClosed}{clinicClosed}}
+{\footnotesize\ttfamily \label{dentist_8c_adf0438cfffc0798bbb393d7189808846} 
+int clinic\+Closed = 0}
+
+Indicates whether the clinic is closed. \Hypertarget{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58}\index{dentist.c@{dentist.c}!confirmedAppointments@{confirmedAppointments}}
+\index{confirmedAppointments@{confirmedAppointments}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{confirmedAppointments}{confirmedAppointments}}
+{\footnotesize\ttfamily \label{dentist_8c_a0713b4b3f0c199f6394b5dd2128ede58} 
+int confirmed\+Appointments = 0}
+
+Total number of confirmed appointments. \Hypertarget{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9}\index{dentist.c@{dentist.c}!doctorCapacity@{doctorCapacity}}
+\index{doctorCapacity@{doctorCapacity}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{doctorCapacity}{doctorCapacity}}
+{\footnotesize\ttfamily \label{dentist_8c_a6d8e5aa5fff9a2ddf9cdf537c56fb0d9} 
+int doctor\+Capacity}
+
+Maximum number of patients the doctor can treat. \Hypertarget{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3}\index{dentist.c@{dentist.c}!mutex@{mutex}}
+\index{mutex@{mutex}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{mutex}{mutex}}
+{\footnotesize\ttfamily \label{dentist_8c_a4acff8232e4aec9cd5c6dc200ac55ef3} 
+pthread\+\_\+mutex\+\_\+t mutex}
+
+
+
+Mutex used to protect shared data. 
+
+This mutex protects critical sections where multiple threads access shared variables. \Hypertarget{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a}\index{dentist.c@{dentist.c}!totalPatients@{totalPatients}}
+\index{totalPatients@{totalPatients}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{totalPatients}{totalPatients}}
+{\footnotesize\ttfamily \label{dentist_8c_af0fbd03c777ebf2ff2041951300eaa4a} 
+int total\+Patients}
+
+Total number of patients. \Hypertarget{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c}\index{dentist.c@{dentist.c}!treatedPatients@{treatedPatients}}
+\index{treatedPatients@{treatedPatients}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{treatedPatients}{treatedPatients}}
+{\footnotesize\ttfamily \label{dentist_8c_abcf38ff96ccccc8b1b15a7f074cf992c} 
+int treated\+Patients = 0}
+
+Number of patients already treated. \Hypertarget{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682}\index{dentist.c@{dentist.c}!waitingPatients@{waitingPatients}}
+\index{waitingPatients@{waitingPatients}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{waitingPatients}{waitingPatients}}
+{\footnotesize\ttfamily \label{dentist_8c_a9a0ccf58b34976fcd8cfdcd2074cb682} 
+int waiting\+Patients = 0}
+
+Current number of patients in waiting room. \Hypertarget{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778}\index{dentist.c@{dentist.c}!waitingRoomChairs@{waitingRoomChairs}}
+\index{waitingRoomChairs@{waitingRoomChairs}!dentist.c@{dentist.c}}
+\doxysubsubsection{\texorpdfstring{waitingRoomChairs}{waitingRoomChairs}}
+{\footnotesize\ttfamily \label{dentist_8c_a7841ca2db0e1f689a86c8b82ee436778} 
+int waiting\+Room\+Chairs}
+
+Number of chairs in the waiting room. 

@@ -1,0 +1,5 @@
+<map id="dentist" name="dentist">
+<area shape="rect" id="Node000001" title="Dentist thread function." alt="" coords="5,5,72,33"/>
+<area shape="rect" id="Node000002" href="$dentist_8c.html#a0e0cd2ec9425e70982f6be99b5f45368" title="Finds the next patient using FIFO / FCFS." alt="" coords="120,5,241,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,17,106,19,101,20,72,22"/>
+</map>
