@@ -1,0 +1,180 @@
+============================================================
+              DENTIST CLINIC SIMULATION
+                    OS PROJECT
+============================================================
+
+PROJECT DESCRIPTION
+-------------------
+This project simulates a dentist clinic using Operating
+System concepts.
+
+The simulation contains patients, a receptionist, a dentist
+and a waiting room.
+
+The program manages appointments, patient arrivals,
+no-show patients, waiting room chairs and doctor capacity.
+
+
+OS CONCEPTS USED
+----------------
+1. POSIX Threads
+2. Mutex
+3. Semaphores
+4. FIFO / FCFS Scheduling
+5. Critical Section
+6. Synchronization
+7. Structure
+8. Pointer
+9. Dynamic Memory Allocation
+
+
+MAIN FEATURES
+-------------
+1. Patient Management
+2. Appointment Management
+3. Waiting Room Management
+4. Dentist Treatment
+5. No-show Handling
+6. FIFO / FCFS Scheduling
+7. Thread Synchronization
+8. Mutex Protected Critical Sections
+9. Semaphore Communication
+
+
+USER INPUT
+----------
+1. Number of patients
+2. Number of waiting room chairs
+3. Doctor maximum capacity
+4. Number of appointment slots
+5. Patient names
+6. Patient arrival status
+
+
+NO-SHOW RULE
+------------
+If a confirmed appointment patient does not arrive,
+the appointment slot is released.
+
+Example:
+
+Patient A = Confirmed + No-show
+
+Patient B = Waiting
+
+Then the available treatment opportunity can be used
+by Patient B.
+
+
+FIFO / FCFS RULE
+----------------
+Patients who enter the waiting room earlier are treated
+before patients who enter later.
+
+Example:
+
+Patient A -> FCFS Order #1
+Patient B -> FCFS Order #2
+Patient C -> FCFS Order #3
+
+Treatment order:
+
+A -> B -> C
+
+
+MUTEX
+-----
+Mutex is used to protect shared variables.
+
+Examples:
+
+waitingPatients
+treatedPatients
+activeAppointments
+arrivalCounter
+clinicClosed
+
+
+SEMAPHORE
+---------
+Semaphores are used for communication between threads.
+
+requestReady:
+Used when a patient sends an appointment request.
+
+patientReady:
+Used when a patient enters the waiting room.
+
+replySem:
+Used by the receptionist to reply to a specific patient.
+
+dentistCallSem:
+Used by the dentist to call a specific patient.
+
+treatmentDoneSem:
+Used to notify the patient that treatment is complete.
+
+
+THREADS
+-------
+The program creates:
+
+1. Receptionist Thread
+2. Dentist Thread
+3. Patient Threads
+
+
+STRUCTURE AND POINTER
+---------------------
+Patient information is stored using:
+
+struct patient
+
+A pointer is used to access patient data:
+
+struct patient *p;
+
+Examples:
+
+p->id
+p->name
+p->appointment
+p->waiting
+p->treated
+
+
+DYNAMIC MEMORY
+--------------
+The patient array and patient thread array are dynamically
+allocated using malloc().
+
+Memory is released using free() after the simulation ends.
+
+
+SOURCE FILE
+-----------
+dentist.c
+
+
+DOCUMENTATION FILE
+------------------
+project_info.txt
+
+
+COMPILE
+-------
+gcc dentist.c -o dentist -pthread
+
+
+RUN
+---
+./dentist
+
+
+PROJECT END
+-----------
+All threads are joined before the program exits.
+
+Mutexes, semaphores and dynamically allocated memory are
+destroyed or released during cleanup.
+
